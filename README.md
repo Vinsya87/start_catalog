@@ -61,16 +61,13 @@ python -m pip install --upgrade pip
     Вставьте в файл следующие данные (замените значения на свои):
 
 <code>
-    # Django superuser credentials
 SUPERUSER_NAME='AdminUser'
 SUPERUSER_PASSWORD='SecurePassword123'
 SUPERUSER_EMAIL='admin@example.com'
 
-# Django settings
 SECRET_KEY='django-insecure-examplekey-1234567890abcdefghijklmnopqrstuvwxyz'
 DEBUG=True
 
-# Email settings
 EMAIL_HOST='smtp.example.com'
 EMAIL_PORT=587
 EMAIL_HOST_USER='noreply@example.com'
