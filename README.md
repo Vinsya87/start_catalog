@@ -60,6 +60,8 @@ python -m pip install --upgrade pip
 
     Вставьте в файл следующие данные (замените значения на свои):
 
+plaintext
+
 SUPERUSER_NAME='AdminUser'
 SUPERUSER_PASSWORD='SecurePassword123'
 SUPERUSER_EMAIL='admin@example.com'
@@ -70,6 +72,8 @@ EMAIL_PORT=587
 EMAIL_HOST_USER='noreply@example.com'
 EMAIL_HOST_PASSWORD='examplepassword'
 DEFAULT_FROM_EMAIL='noreply@example.com'
+
+Объяснение:
 
 
 
