@@ -97,7 +97,13 @@ python manage.py createsuperuser
 
     Выполните миграции и запустите сервер:
 
-    python manage.py migrate
-    python manage.py runserver
+    
+<pre class="notranslate">
+    <code>
+        python manage.py migrate
+        python manage.py runserver
+    
+    </code>
+</pre>
 
 Теперь ваш проект должен быть развернут и доступен по адресу http://127.0.0.1:8000/. Убедитесь, что все команды выполнены успешно и что приложение работает должным образом.
