@@ -60,7 +60,8 @@ python -m pip install --upgrade pip
 
     Вставьте в файл следующие данные (замените значения на свои):
 
-
+python3 -m venv venv
+    source venv/bin/activate
     SUPERUSER_NAME='AdminUser'
     SUPERUSER_PASSWORD='SecurePassword123'
     SUPERUSER_EMAIL='admin@example.com'
