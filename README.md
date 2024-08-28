@@ -60,7 +60,8 @@ python -m pip install --upgrade pip
 
     Вставьте в файл следующие данные (замените значения на свои):
 
-# Django superuser credentials
+<code>
+    # Django superuser credentials
 SUPERUSER_NAME='AdminUser'
 SUPERUSER_PASSWORD='SecurePassword123'
 SUPERUSER_EMAIL='admin@example.com'
@@ -76,8 +77,7 @@ EMAIL_HOST_USER='noreply@example.com'
 EMAIL_HOST_PASSWORD='examplepassword'
 DEFAULT_FROM_EMAIL='noreply@example.com'
 
-
-
+</code>
 
 4. Создание суперпользователя и начальных данных(если не добавили SUPERUSER_NAME и тд)
 
