@@ -72,6 +72,7 @@ EMAIL_HOST_PASSWORD='examplepassword'
 DEFAULT_FROM_EMAIL='noreply@example.com'
 
 
+
 4. Создание суперпользователя и начальных данных(если не добавили SUPERUSER_NAME и тд)
 
     Создайте суперпользователя (вы можете пропустить, если нет необходимости):
