@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if category.slider %}
+<div class="banner_post">
+  <div class="{{category.slider.class_css}} slider_top_item">
+    <div class="banner_top_item_img">
+      {% if category.slider.image %}
+
+      <div class="slider_decstop_item">
+        <img src="{{ category.slider.image.url }}" alt="{{ category.slider.title }}" loading="lazy" />
+
+      </div>
+      {% endif %}
+
+      {% if category.slider.image_mobile %}
+      <div class="slider_mobile_item">
+        <img src="{{ category.slider.image_mobile.url }}" alt="{{ category.slider.title }}" />
+      </div>
+      {% endif %}
+    </div>
+    <div class="slider_post">
+      {% if category.slider.header_type == 'h1' %}
+      <h1>{{ category.slider.title }}</h1>
+      {% else %}
+      <h2>{{ category.slider.title }}</h2>
+      {% endif %}
+      <p>{{ category.slider.text }}</p>
+      {% if category.slider.link %}
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="banner_post_none">
+  
+</div>
+{% endif %}
+{% include 'includes/breadcrumbs.html' %}
+<div class="container">
+  <h1 class="post_article_h1">{{ category.title }}</h1>
+  <div class="post_article post_article_main post_article_list_service">
+    
+    {% for post in posts %}
+    
+    <div class="post_article_item post_article_item_list post_article_item_main">
+      <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+      {% if post.image %}
+      <a href="{{ post.get_absolute_url }} " class="post_item_image">
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+      </a>
+      {% endif %}
+      
+
+      <div class="desc_art_post">
+        {{ post.short_description|truncatechars:500 }}
+      </div>
+      <div class="news_btn_main">
+        <a href="{{ post.get_absolute_url }}" class="news_btn">
+          <p>Подробнее</p>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

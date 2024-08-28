@@ -1,0 +1,19 @@
+:root {
+    --dark-color: #330709;
+    --hover-color: #d5d5d5;
+    --dark-blue-color: #1e3256;
+    --dark-blue-color-hover: #3d5585;
+    --blue-color: rgba(0, 57, 151, 0.7);
+    --grey-color: #333;
+    --grey-color-hover: #9e9e9e;
+    --line_color: #ededed;
+    --white-color: #fff;
+    --form-select-border-color: red;
+    --form-select-indicator-color: red;
+    --header_lite: #fff0f5;
+    --header_hover: #afafaf;
+    --pink: #ffc0cb;
+    --gray: #34495e;
+    --darkgray: #6eaef3;
+    --red-color: #fa2f35;
+  }

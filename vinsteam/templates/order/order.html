@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+
+
+<div class="content_main category_index">
+  {% include 'includes/profile_items_main_mobile.html' %}
+  <div class="container">
+
+    {% include 'includes/profile_items_main.html' %}
+
+    <div class="category_index_main hits_main hits_order">
+      <div class="category_sort_main">
+        <div class="title_index">
+          <h2>{{ page_name }}</h2>
+        </div>
+      </div>
+      {% if user.is_authenticated %}
+      <div class="product_item_main_basket">
+        {% if products_with_prices %}
+        {% for product in products_with_prices %}
+        {% include 'order/products_list_order.html' %}
+        {% endfor %}
+      </div>
+      <div class="orders_total_main">
+        <p>Общая цена: <span id="total_price_value">0 ₽</span></p>
+        <button class="btn_main" onclick="window.location.href = '{% url 'basket:basket' %}'">Вернуться в
+          корзину</button>
+      </div>
+      {% else %}
+      <div class="info_text_main">
+        <p class="info_text">В корзине нет товара</p>
+        <a href="{% url 'catalog_url:category_all' %}" class="info_text_link"> Перейти в каталог</a>
+      </div>
+      {% endif %}
+
+      {% if order_true %}
+      <div class="form_order_main">
+        <h3>Проверьте данные и введите информацию и пожелания о заказе</h3>
+        <form id="order-form"  class="form_group_form" method="post">
+          {% csrf_token %}
+          <div class="form_group_form_left">
+            <div class="form_group_profile">
+              {{ form.first_name }}
+              {% if form.first_name.errors %}
+              <div class="error">{{ form.first_name.errors }}</div>
+              {% endif %}
+            </div>
+            <div class="form_group_profile">
+              {{ form.phone }}
+              {% if form.phone.errors %}
+              <div class="error">{{ form.phone.errors }}</div>
+              {% endif %}
+            </div>
+            <div class="form_group_profile">
+              {{ form.email }}
+              {% if form.email.errors %}
+              <div class="error">{{ form.email.errors }}</div>
+              {% endif %}
+            </div>
+            <div class="form_group_profile ">
+              <div class="form_group_profile_address">
+
+                {{ form.address }}
+                <a href="{% url 'users:add_address' %}">
+                  <p>+</p>
+                </a>
+              </div>
+
+              {% if form.address.errors %}
+              <div class="error">{{ form.address.errors }}</div>
+              {% endif %}
+            </div>
+            <div class="form_group_profile">
+              {{ form.time_range }}
+              {% if form.time_range.errors %}
+              <div class="error">{{ form.time_range.errors }}</div>
+              {% endif %}
+            </div>
+            <div class="form_group_profile">
+              {{ form.delivery_date }}
+              {% if form.delivery_date.errors %}
+              <div class="error">{{ form.delivery_date.errors }}</div>
+              {% endif %}
+            </div>
+
+          </div>
+          <div class="form_group_form_rigth">
+            <div class="form_group_profile">
+              {{ form.comment }}
+              {% if form.comment.errors %}
+              <div class="error">{{ form.comment.errors }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form_group_form_btn">
+            <button class="btn_main" type="submit">Заказать</button>
+          </div>
+
+        </form>
+      </div>
+      {% endif %}
+      {% else %}
+      <div class="info_text_main">
+        <p class="info_text">Пожалуйста, войдите в систему.</p>
+        <p class="lk_top_sign info_text_link lk_top"> Войти</p>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+
+<script defer>
+  document.addEventListener("DOMContentLoaded", function () {
+    updateTotalPrice();
+
+    function updateTotalPrice() {
+      var priceElements = document.querySelectorAll('.price_prod_form');
+      var totalPrice = 0;
+
+      priceElements.forEach(function (element) {
+        var price = parseFloat(element.innerText.replace(" ₽", ""));
+        totalPrice += price;
+      });
+
+      var totalAmountElement = document.getElementById('total_price_value');
+      if (totalAmountElement) {
+        totalAmountElement.textContent = totalPrice + " ₽"; // Обновляем текст в элементе <span>
+      }
+    }
+  });
+
+
+  document.getElementById('order-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    let formData = new FormData(this);
+    try {
+      let response = await fetch("submit/", {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      let result = await response.json();
+
+      if (result.success) {
+        window.location.href = '{% url "main_url:main_index" %}';
+      } else {
+        alert('Произошла ошибка: ' + (result.message || 'Неизвестная ошибка'));
+      }
+    } catch (error) {
+      alert('Произошла ошибка при отправке формы: ' + error.message);
+    }
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

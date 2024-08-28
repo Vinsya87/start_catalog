@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if page.slider %}
+<div class="{{page.slider.class_css}} slider_top_item">
+  <div class="slider_top_item_img">
+    {% if page.slider.image %}
+
+    <div class="slider_decstop_item">
+      <img src="{{ page.slider.image.url }}" alt="{{ page.slider.title }}" loading="lazy" />
+
+    </div>
+    {% endif %}
+
+    {% if page.slider.image_mobile %}
+    <div class="slider_mobile_item">
+      <img src="{{ page.slider.image_mobile.url }}" alt="{{ page.slider.title }}" />
+    </div>
+    {% endif %}
+  </div>
+  <div class="slider_post">
+    {% if page.slider.header_type == 'h1' %}
+    <h1>{{ page.slider.title }}</h1>
+    {% else %}
+    <h2>{{ page.slider.title }}</h2>
+    {% endif %}
+    <p>{{ page.slider.text }}</p>
+    {% if page.slider.link %}
+    {% endif %}
+
+  </div>
+</div>
+{% endif %}
+{% include 'includes/breadcrumbs.html' %}
+<div class="container">
+  <div class="post_article">
+
+    <article class="news_post">
+      <h1>{{ page.title }}</h1>
+      <div class="contacts_main">
+        {{ page.content_ckeditor|safe }}
+        <div class="contact_map">
+
+
+
+      </div>
+
+    </article>
+
+
+  </div>
+
+</div>
+
+{% for block in page.content_blocks.all %}
+{% if block.number == 201 %}
+<div class="post_call_main post_call_main_post">
+  <div class="container">
+
+
+    {{ block.content_ckeditor|safe }}
+
+
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endblock %}

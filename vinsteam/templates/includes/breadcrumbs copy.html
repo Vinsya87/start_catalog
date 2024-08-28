@@ -1,0 +1,68 @@
+<div class="breadcrumbs_main container">
+  <ul>
+    <li><a href="/">Главная</a></li>
+    {% if category_articles %}
+    <li>{{ category_articles.title }}</li>
+    {% if category_articles.parent %}
+    <li><a
+        href="{% url 'catalog_url:category_detail' category_articles.parent.slug %}">{{ category_articles.parent.title }}</a>
+    </li>
+    {% endif %}
+    {% if object.category_articles.parent %}
+    <li><a
+        href="{% url 'catalog_url:category_detail' object.category_articles.parent.slug %}">{{object.category_articles.parent.title}}</a>
+    </li>
+    {% endif %}
+    {% if object.category_articles %}
+    <li><a
+        href="{% url 'catalog_url:category_detail' object.category_articles.slug %}">{{object.category_articles.title}}</a>
+    </li>
+    {% endif %}
+    <li>{{ object.title }}</li>
+    {% endif %}
+
+    {% if categories %}
+    {% if catalog %}
+    <li>Каталог</li>
+    {% else %}
+    <li><a href="/category/">Каталог</a></li>
+    {% endif%}
+    {% if category_product.parent %}
+    <li><a
+        href="{% url 'catalog_url:category_detail' category_product.parent.slug %}">{{ category_product.parent.title }}</a>
+    </li>
+    {% endif %}
+    {% if object.category_product.parent %}
+    <li><a
+        href="{% url 'catalog_url:category_detail' object.category_articles.parent.slug %}">{{object.category_articles.parent.title}}</a>
+    </li>
+    {% endif %}
+    {% if object.category_product %}
+    <li><a
+        href="{% url 'catalog_url:category_detail' object.category_product.slug %}">{{object.category_cat.title}}</a>
+    </li>
+    {% endif %}
+    {% if product.category.parent %}
+    <li><a
+        href="{% url 'catalog_url:category_detail' product.category.parent.slug %}">{{ product.category.parent.title }}</a>
+    </li>
+    {% endif %}
+    {% if product %}
+    <li><a href="{% url 'catalog_url:category_detail' product.category.slug %}">{{product.category}}</a></li>
+    {% endif %}
+    <li>{{ object.title }}</li>
+    {% endif %}
+
+    {% if post %}
+    <li><a href="{% url 'articles:post_list_by_category' post.category.slug %}">{{ post.category.title }}</a></li>
+    <li>{{ post.title }}</li>
+    {% endif %}
+    {% if query %}
+    <li>Поиск: {{ query }}</li>
+    {% endif %}
+    {% if page %}
+    <li>{{ page.title }}</li>
+    {% endif %}
+
+  </ul>
+</div>

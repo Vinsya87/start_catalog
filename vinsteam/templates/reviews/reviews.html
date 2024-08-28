@@ -1,0 +1,29 @@
+<div class="reviews_index_main reviews_ul">
+
+    <div class="swiper-wrapper">
+
+        {% for review in enabled_reviews %}
+
+        <div class="reviews_li swiper-slide">
+            <div class="review_header">
+                <span class="review_date">{{ review.created_at|date:"d.m.Y" }}</span>
+                <span class="review_name">{{ review.name }}</span>
+
+            </div>
+            <div class="review_text">{{ review.text|truncatechars:200 }}</div>
+            {% if review.text_length > 200 %}
+            <div class="show_more_review news_btn" data-review-id="{{ review.id }}">
+                <p>Весь отзыв</p>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="swiper-pagination qwq"></div>
+</div>
+
+<!-- If we need navigation buttons -->
+<div class="swiper-button-prev arrow-prev"></div>
+<div class="swiper-button-next arrow-next"></div>

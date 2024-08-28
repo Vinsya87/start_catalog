@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+
+
+<div class="content_main category_index">
+  {% include 'includes/category_items_main_mobile.html' %}
+  <div class="container">
+
+    {% include 'includes/category_items_main.html' %}
+
+    <div class="category_index_main hits_main hits_order">
+      <div class="category_sort_main">
+        <div class="title_index">
+          <h2>{{ page_name }}</h2>
+        </div>
+      </div>
+      <div class="product_item_main_basket">
+
+        {% for product in baskets %}
+        {% include 'catalog/products_list_order.html' %}
+
+        {% endfor %}
+
+
+      </div>
+      <div class="total_price_basket">
+        <div class="total_price_basket_down">
+          <p>Общая цена: <span id="total_price">0 ₽</span></p>
+          <button class="btn_main" onclick="window.location.href = '{% url 'basket:basket' %}'">Вернуться в корзину</button>
+
+        </div>
+        <div class="form_order_main">
+          <h3>Проверьте данные и введите информацию и пожелания о заказе</h3>
+          <form class="form_group_form" method="post">
+            {% csrf_token %}
+            <div class="form_group_form_left">
+              <div class="form_group_profile">
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                <div class="error">{{ form.first_name.errors }}</div>
+                {% endif %}
+              </div>
+              <div class="form_group_profile">
+                {{ form.phone }}
+                {% if form.phone.errors %}
+                <div class="error">{{ form.phone.errors }}</div>
+                {% endif %}
+              </div>
+              <div class="form_group_profile">
+                {{ form.email }}
+                {% if form.email.errors %}
+                <div class="error">{{ form.email.errors }}</div>
+                {% endif %}
+              </div>
+
+            </div>
+            <div class="form_group_form_rigth">
+              <div class="form_group_profile">
+                {{ form.comment }}
+                {% if form.comment.errors %}
+                <div class="error">{{ form.comment.errors }}</div>
+                {% endif %}
+              </div>
+            </div>
+<div class="form_group_form_btn">
+  <button class="btn_main" type="submit">Заказать</button>
+</div>
+
+          </form>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

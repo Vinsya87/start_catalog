@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if post.slider %}
+<div class="{{post.slider.class_css}} slider_top_item">
+  <div class="slider_top_item_img">
+    {% if post.slider.image %}
+
+    <div class="slider_decstop_item">
+      <img src="{{ post.slider.image.url }}" alt="{{ post.slider.title }}" loading="lazy" />
+
+    </div>
+    {% endif %}
+
+    {% if post.slider.image_mobile %}
+    <div class="slider_mobile_item">
+      <img src="{{ post.slider.image_mobile.url }}" alt="{{ post.slider.title }}" />
+    </div>
+    {% endif %}
+  </div>
+  <div class="slider_post">
+    {% if post.slider.header_type == 'h1' %}
+    <h1>{{ post.slider.title }}</h1>
+    {% else %}
+    <h2>{{ post.slider.title }}</h2>
+    {% endif %}
+    <p>{{ post.slider.text }}</p>
+    {% if post.slider.link %}
+    <button class="btn_main"><a href="{{ post.slider.link }}">Перейти</a></button>
+    {% endif %}
+
+  </div>
+</div>
+{% else %}
+<div class="banner_post_none">
+
+</div>
+{% endif %}
+{% include 'includes/breadcrumbs.html' %}
+<div class="container">
+  <div class="post_article">
+    {% if post.image %}
+    <article class="news_post news_post_image">
+
+      <div class="image_special_main">
+
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+
+      </div>
+      <div class="desc_special_main">
+        <h1>{{ post.title }}</h1>
+
+        {{ post.content_ckeditor|safe }}
+      </div>
+    </article>
+    {% else %}
+    <article class="news_post">
+      <h1>{{ post.title }}</h1>
+      {{ post.content_ckeditor|safe }}
+    </article>
+    {% endif %}
+
+  </div>
+</div>
+{% for block in post.content_blocks.all %}
+{% if block.number == 201 %}
+<div class="post_call_main post_call_main_post">
+  <div class="container">
+    {{ block.content_ckeditor|safe }}
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% endblock %}

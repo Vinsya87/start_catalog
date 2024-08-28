@@ -1,0 +1,31 @@
+
+<div class="prod_top_basket">
+
+  <div class="prod_top_main_basket">
+
+    <div class="prod_basket_desc">
+      <a href="{% url 'catalog_url:product_detail' slug=product.product.slug %}" class="prod_top_title_basket">
+        <p class="title_prod">{{ product.product.name }} </p>
+      </a>
+     
+    </div>
+
+    <div class="prod_down_basket">
+
+      <div class="prod_cart_main">
+        <div class="prod_cart_price">
+          {% if product.product.price %}
+          <p class="price_in_total">{{product.product.price}} ₽ - {{product.quantity}}</p>
+
+
+          {% else %}
+          <p class="no_items">
+            Цену уточняйте
+          </p>
+        
+        {% endif %}
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

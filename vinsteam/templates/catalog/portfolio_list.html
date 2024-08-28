@@ -1,0 +1,52 @@
+<!-- portfolio_list.html -->
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block content %}
+<div class="portfolio_list">
+    <div class="container">
+        <div class="frame">
+            <h1>Примеры наших работ</h1>
+            <div class="portfolio_list_df df">
+                {% for portfolio in portfolios %}
+
+                <div class="portfolio_list_item">
+                    <h3 class="portfolio_list_title"><a
+                            href="{{ portfolio.get_absolute_url }}">{{ portfolio.title }}</a></h3>
+                    <div class="portfolio_list_item_top">
+                        {% if portfolio.image_catalog %}
+                        <a href="{{ portfolio.get_absolute_url }}" class=" over portfolio_item_image fit">
+                            <picture>
+                                {% thumbnail portfolio.image_catalog '350x250' crop='center' quality=85 format='WEBP' as image %}
+                                <source media="(max-width: 500px)" srcset="{{ image.url }}">
+                                {% endthumbnail %}
+                                {% thumbnail portfolio.image_catalog '420x350' quality=85 crop='center' format='WEBP' as image %}
+                                <img src="{{ image.url }}" width="{{ image.width }}" loading="lazy"
+                                    alt="{{ portfolio.title }}" />
+                                {% endthumbnail %}
+                            </picture>
+                        </a>
+                        {% endif %}
+                    </div>
+                    <div class="portfolio_list_item_down">
+                        <div class="list_check desc_art_post">
+                            {{ portfolio.description|safe }}
+                        </div>
+                        <div class="prod_down df jcsb ">
+                            <div class="prod_top_link">
+                                <a href="{% url 'catalog_url:portfolio_detail' portfolio.slug %}">
+                                    Подробнее
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                {% endfor %}
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+</div>

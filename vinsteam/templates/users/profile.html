@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+{% load thumbnail %}
+
+{% include 'includes/profile_items_main_mobile.html' %}
+<div class="content_main category_index">
+  <div class="container">
+    {% include 'includes/profile_items_main.html' %}
+
+    <div class="category_index_main hits_main profile_index">
+      <div class="category_sort_main">
+        <div class="title_index">
+          <h2>{{ page_name }}</h2>
+        </div>
+      </div>
+      {% if user.is_authenticated %}
+
+      <div class="profile_main">
+
+
+        <form class="form_group_form" method="post">
+          {% csrf_token %}
+          <div class="form_group_profile">
+            {{ form.username }}
+            {% if form.username.errors %}
+            <div class="error">{{ form.username.errors }}</div>
+            {% endif %}
+          </div>
+          <div class="form_group_profile">
+            {{ form.email }}
+            {% if form.email.errors %}
+            <div class="error">{{ form.email.errors }}</div>
+            {% endif %}
+          </div>
+          <div class="form_group_profile">
+            {{ form.phone }}
+            {% if form.phone.errors %}
+            <div class="error">{{ form.phone.errors }}</div>
+            {% endif %}
+          </div>
+          <div class="form_group_profile">
+            {{ form.first_name }}
+            {% if form.first_name.errors %}
+            <div class="error">{{ form.first_name.errors }}</div>
+            {% endif %}
+          </div>
+          <div class="form_group_profile">
+            {{ form.last_name }}
+            {% if form.last_name.errors %}
+            <div class="error">{{ form.last_name.errors }}</div>
+            {% endif %}
+          </div>
+          <button class="btn_main" type="submit">Сохранить</button>
+        </form>
+
+
+        <div class="btn_main_pass">
+          <a class="btn_mini" href="{% url 'users:password_change' %}">Сменить пароль</a>
+        </div>
+      </div>
+      
+
+
+
+      {% else %}
+      <div class="info_text_main">
+        <p class="info_text">Пожалуйста, войдите в систему.</p>
+        <p class="lk_top_sign info_text_link lk_top"> Войти</p>
+      </div>
+      {% endif %}
+
+
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

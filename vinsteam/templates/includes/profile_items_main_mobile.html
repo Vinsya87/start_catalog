@@ -1,0 +1,34 @@
+{% load custom_active %}
+<div class="catalog_mobile_main_container profile_mobile_main">
+  <div class="catalog_mobile_main">
+    <button id="catalog_mobile_btn" class="btn_sort">
+      Меню
+    </button>
+    <span class="span_sort span_catalog">
+      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M1.08754 0.837541C1.31535 0.609736 1.68469 0.609736 1.9125 0.837541L5.00002 3.92506L8.08754 0.837541C8.31535 0.609736 8.68469 0.609736 8.9125 0.837541C9.14031 1.06535 9.14031 1.43469 8.9125 1.6625L5.4125 5.1625C5.18469 5.39031 4.81535 5.39031 4.58754 5.1625L1.08754 1.6625C0.859736 1.43469 0.859736 1.06535 1.08754 0.837541Z"
+          fill="#828282"></path>
+      </svg>
+
+    </span>
+    <div class="dropdown_menu">
+      <div class="category_top ">
+        <p class="cat_gl"><a href="{% url 'users:profile' %}">Профиль</a></p>
+      </div>
+      <div class="category_top active">
+        <p class="cat_gl"><a href="{% url 'basket:basket' %}">Корзина</a></p>
+      </div>
+      <div class="category_top  ">
+        <p class="cat_gl"><a href="{% url 'catalog_url:favorite' %}">Избранное</a></p>
+      </div>
+      {% if user.is_authenticated %}
+      <div class="category_top ">
+        <p class="cat_gl"><a href="{% url 'users:add_address' %}">Адреса доставки</a></p>
+      </div>
+      {% endif %}
+    </div>
+
+
+  </div>
+</div>

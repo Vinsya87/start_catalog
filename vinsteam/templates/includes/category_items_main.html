@@ -1,0 +1,22 @@
+{% load custom_active %}
+<div class="category_items_main">
+    <div class="category_top {% is_active request 'users:profile' %}">
+      <p class="cat_gl"><a href="{% url 'users:profile' %}">Профиль</a></p>
+    </div>
+    <div class="category_top {% is_active request 'basket:basket' %}">
+      <p class="cat_gl"><a href="{% url 'basket:basket' %}">Корзина</a></p>
+    </div>
+    <div class="category_top  {% is_active request 'catalog_url:favorite' %}">
+      <p class="cat_gl"><a href="{% url 'catalog_url:favorite' %}">Избранное</a></p>
+    </div>
+    {% if user.is_authenticated %}
+
+
+    <form id="logoutForm" class="logout-form" method="post" action="{% url 'users:logout' %}">
+      {% csrf_token %}
+      <button class="profile" type="submit">Выход</button>
+    </form>
+    {% endif %}
+
+
+  </div>

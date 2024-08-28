@@ -1,0 +1,24 @@
+<div class="news_title">
+  <div class="title_index">
+    <h2>Новости</h2>
+  </div>
+  <button class="btn_mini">
+    <a href="{% url 'articles:post_list_by_category' category_slug=category_posts %}"><p>Все новости</p></a>
+  </button>
+</div>
+<div class="news_index_main">
+
+  {% for post in posts %}
+  <div class="news_item_main">
+    <div class="news_item_title">
+      <p><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></p>
+    </div>
+    <div class="news_item_desc">
+      <p>{{ post.content_ckeditor|truncatechars:200|safe }}</p>
+    </div>
+    <a href="{{ post.get_absolute_url }}" class="news_btn">
+      <p>Подробнее</p>
+    </a>
+  </div>
+  {% endfor %}
+</div>

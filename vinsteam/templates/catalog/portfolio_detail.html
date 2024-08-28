@@ -1,0 +1,105 @@
+<!-- portfolio_detail.html -->
+{% extends "base.html" %}
+{% load clean_html thumbnail %}
+{% block content %}
+{% include 'includes/breadcrumbs.html' %}
+
+<div class="content_main portfolio_content">
+    <div class="container">
+        <h1>{{ portfolio.title }}</h1>
+
+        {% if portfolio.content_ckeditor|clean_html %}
+        <div class="portfolio_content">
+            {{ portfolio.content_ckeditor|safe }}
+        </div>
+        {% endif %}
+        <div>
+            <div class="portfolio_gallery gallery">
+                <ul>
+                    {% for image in portfolio.images.all %}
+                    <li>
+                        <a href="{{ image.image.url }}" class=" over portfolio_item_image fit">
+                            <picture>
+                                {% thumbnail image.image '350x250' crop='center' quality=85 format='WEBP' as image %}
+                                <source media="(max-width: 500px)" srcset="{{ image.url }}">
+                                {% endthumbnail %}
+                                {% thumbnail image.image '420x350' quality=85 crop='center' format='WEBP' as image %}
+                                <img src="{{ image.url }}" width="{{ image.width }}" loading="lazy"
+                                    alt="{{ portfolio.title }}" />
+                                {% endthumbnail %}
+                            </picture>
+                        </a>
+
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="hits_category hits_category_second">
+    <div class="frame">
+        <div class="container">
+            <div class="hits_frame df wrap">
+                {% for category in categories_all %}
+
+                <a href="{{category.get_absolute_url}}" class="hits_category_item">
+                    <p>{{category}}</p>
+                    <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 15L16.7167 8.73106C17.1403 8.33572 17.1403 7.66428 16.7167 7.26894L10 1"
+                            stroke="#DE1E2F" />
+                        <path d="M17 8L0 8" stroke="#DE1E2F" />
+                    </svg>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if portfolios%}
+<div class="category_index_main_top portfolios index_catalog index_catalog_mb0">
+    <div class="frame">
+        <div class="container">
+            <div class="slider_global">
+                <div class="title_index">
+                    <h4 class="index_catalog_title">
+                        <a href="/portfolio/">
+                            <span>Наши</span> проекты
+                        </a>
+                    </h4>
+                </div>
+                <div class="category_index_main hits_main_parent">
+                    <div class="swiper-wrapper">
+                        {% for product in portfolios %}
+                        {% include 'catalog/portfolio_main.html' %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="swiper-button-prev index-prev"></div>
+                <div class="swiper-button-next index-next"></div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endif %}
+
+{% endblock %}
+<script>
+    $(document).ready(function() {
+        $('.gallery').magnificPopup({
+            delegate: 'a', // элемент для открытия попапа
+            type: 'image',
+            gallery: {
+                enabled: true // Галерея
+            },
+            zoom: {
+                enabled: true, // Зум при открытии
+                duration: 300 // Длительность анимации
+            }
+        });
+    });
+</script>

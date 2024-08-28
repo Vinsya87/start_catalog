@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+{% load thumbnail %}
+
+
+{% include 'includes/breadcrumbs.html' %}
+<div class="content_main category_index">
+  <div class="container">
+    <div class="category_items_main">
+      {% for cat in categories %}
+      <div
+        class="category_top {% if category.parent and category.parent.slug == cat.slug or category.slug == cat.slug %}active{% endif %}">
+
+        {% if cat.get_children %}
+        <p class="cat_gl">{{ cat.title }}</p>
+        <ul class="category_pod">
+          {% for subcat in cat.get_children %}
+          <li>
+            <p class="cat_gl"><a href="{% url 'catalog_url:category_detail' subcat.slug %}">{{ subcat.title }}</a></p>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="cat_gl"><a href="{% url 'catalog_url:category_detail' cat.slug %}">{{ cat.title }}</a></p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+
+
+
+
+
+
+
+    <div class="category_index_main hits_main">
+      <div class="category_sort_main">
+        <div class="title_index title_index_search">
+          <h2>Поиск по: </h2>
+          <p>{{query}}</p>
+        </div>
+        <div class="category_sort">
+          <p>Сортировать</p>
+          <div class="dropdown btn_sort_sorting">
+            <form method="get" class="form-inline form_sort form_sort_price">
+              <input type="hidden" name="q" value="{{ query }}">
+              <input type="hidden" name="show_count" value="{{ show_count }}">
+              <button class="btn_sort" type="button" id="show_sort" data-bs-toggle="dropdown" aria-expanded="false">
+                {% if show_sort == "price_asc" %}
+                Дешевле
+                {% elif show_sort == "price_desc" %}
+                Дороже
+                {% elif show_sort == "popularity" %}
+                Популярные
+                {% endif %}
+                
+              </button>
+              <span class="span_sort">
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M1.08754 0.837541C1.31535 0.609736 1.68469 0.609736 1.9125 0.837541L5.00002 3.92506L8.08754 0.837541C8.31535 0.609736 8.68469 0.609736 8.9125 0.837541C9.14031 1.06535 9.14031 1.43469 8.9125 1.6625L5.4125 5.1625C5.18469 5.39031 4.81535 5.39031 4.58754 5.1625L1.08754 1.6625C0.859736 1.43469 0.859736 1.06535 1.08754 0.837541Z"
+                    fill="#828282" />
+                </svg>
+
+              </span>
+              <div class="dropdown-menu" id="show_sort_show" aria-labelledby="show_sort">
+                <a class="dropdown-item dropdown_sort" href="#" data-value="price_asc">Дешевле</a>
+                <a class="dropdown-item dropdown_sort" href="#" data-value="price_desc">Дороже</a>
+                <a class="dropdown-item dropdown_sort" href="#" data-value="popularity">Популярные</a>
+              </div>
+              <input type="hidden" name="show_sort" id="show_sort_input" value="price_asc">
+
+            </form>
+          </div>
+          <div class="btn_sort_show_main">
+            <p>Показывать по</p>
+            <div class="dropdown btn_sort_show" >
+              <form method="get" class="form-inline form_sort form_sort_show">
+                <input type="hidden" name="q" value="{{ query }}">
+                <input type="hidden" name="show_count" value="{{ show_sort }}">
+                <button class="btn_sort" type="button" id="show_count">
+                  {{show_count}}
+                  
+                </button>
+                <span class="span_sort">
+                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M1.08754 0.837541C1.31535 0.609736 1.68469 0.609736 1.9125 0.837541L5.00002 3.92506L8.08754 0.837541C8.31535 0.609736 8.68469 0.609736 8.9125 0.837541C9.14031 1.06535 9.14031 1.43469 8.9125 1.6625L5.4125 5.1625C5.18469 5.39031 4.81535 5.39031 4.58754 5.1625L1.08754 1.6625C0.859736 1.43469 0.859736 1.06535 1.08754 0.837541Z"
+                      fill="#828282" />
+                  </svg>
+  
+                </span>
+                <div class="dropdown-menu" id="show_count_show" >
+                  <a class="dropdown-item dropdown_item_count" href="#" data-value="25">25</a>
+                  <a class="dropdown-item dropdown_item_count" href="#" data-value="50">50</a>
+                  <a class="dropdown-item dropdown_item_count" href="#" data-value="100">100</a>
+                </div>
+                <input type="hidden" name="show_count" id="show_count_input" value="20">
+  
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+{% if message %}
+{{message}}
+{% endif %}
+
+      {% for product in page_obj %}
+      {% include 'catalog/products_list.html' %}
+
+      {% endfor %}
+      
+
+
+    </div>
+
+  </div>
+  {% include 'includes/paginator.html' %}
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

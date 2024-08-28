@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+
+<div class="content_main category_index">
+  {% include 'includes/category_items_main_mobile.html' %}
+  <div class="container">
+
+    {% include 'includes/category_items_main.html' %}
+
+    <div class="category_index_main hits_main">
+      <div class="category_sort_main">
+        <div class="title_index">
+          <h2>{{ page_name }}</h2>
+        </div>
+      </div>
+      <div class="product_item_main_basket">
+        {% if baskets %}
+        {% for product in baskets %}
+        {% include 'catalog/products_list_basket.html' %}
+
+        {% endfor %}
+        {%else%}
+        <p>Ваша корзина пуста</p>
+        {%endif%}
+      </div>
+<div class="total_price_basket">
+  <div class="total_price_basket_down">
+    <p>Общая цена: <span id="total_price">0 ₽</span></p>
+    {% if baskets %}
+    <button class="btn_main" onclick="window.location.href = '{% url 'basket:order' %}'">Оформить заказ</button>
+
+    {%endif%}
+  </div>
+
+</div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

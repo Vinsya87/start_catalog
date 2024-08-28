@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+{% load thumbnail %}
+{% include 'includes/profile_items_main_mobile.html' %}
+<div class="content_main category_index basket_index">
+    <div class="container">
+        {% include 'includes/profile_items_main.html' %}
+        <div class="category_index_main hits_main">
+            <div class="category_sort_main">
+                <div class="title_index">
+                    <h2>{{ page_name }}</h2>
+                </div>
+            </div>
+            {% if orders %}
+            <div class="order_in_orders">
+                {% for order in orders %}
+                <div class="user_order_item">
+                    <div class="user_order_btn">
+                        <p><span>Дата</span>: {{ order.delivery_date }}</p>
+                        <p><span>Доставка</span>: {{ order.get_time_range_display }}</p>
+                        <p><span>Статус</span>: {{ order.status }}</p>
+                       
+                        <p><span>Создан</span>: {{ order.created_at }}</p>
+                        <p><span>Сумма</span>: {{ order.total_price }}</p>
+                    </div>
+
+                    <div class="user_order_items">
+                        {% for product in order.items.all %}
+                        {% include 'order/user_orders_list.html' %}
+                        {% endfor %}
+                        {% if order.message %}
+                        <div class="arder_message">
+                            <p><span>Сообщение</span>: {{ order.message }}</p>
+                        </div>
+                        
+                        {% endif %}
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+
+            {% else %}
+            <div class="info_text_main">
+                <p class="info_text">У вас нет заказов</p>
+                <a href="{% url 'catalog_url:category_all' %}" class="info_text_link"> Перейти в каталог</a>
+            </div>
+
+            {%endif%}
+
+        </div>
+
+    </div>
+</div>
+{% comment %} <script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+        updateTotalPrice();
+        // Функция обновления общей суммы
+
+
+        // Остальной код для работы с корзиной
+        const minusButtons = document.querySelectorAll('.minus');
+        const plusButtons = document.querySelectorAll('.plus');
+        const quantityFields = document.querySelectorAll('.quantity input');
+        const priceFields = document.querySelectorAll('.price_prod_form');
+        const productIdFields = document.querySelectorAll('.product_id');
+        const basePrices = document.querySelectorAll('input[name="price"]');
+
+        minusButtons.forEach((minusButton, index) => {
+            minusButton.addEventListener('click', () => {
+                updateQuantity(index, -1);
+            });
+        });
+
+        plusButtons.forEach((plusButton, index) => {
+            plusButton.addEventListener('click', () => {
+                updateQuantity(index, 1);
+            });
+        });
+
+        quantityFields.forEach((quantityField, index) => {
+            quantityField.addEventListener('input', () => {
+                updatePrice(index);
+            });
+        });
+
+        function updatePrice(index) {
+            let currentValue = parseInt(quantityFields[index].value);
+
+            if (currentValue >= 1) {
+                let priceValue = parseFloat(basePrices[index].value);
+                priceFields[index].innerText = (currentValue * priceValue) + " ₽";
+                updateQuantityInDatabase(currentValue, index);
+
+            }
+        }
+
+        function updateQuantity(index, change) {
+            let currentValue = parseInt(quantityFields[index].value) + change;
+
+            if (currentValue >= 1) {
+
+                quantityFields[index].value = currentValue;
+                updatePrice(index);
+            }
+        }
+
+        function updateQuantityInDatabase(currentValue, index) {
+            const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+            const productId = parseInt(productIdFields[index].value);
+            const data = {
+                'new_quantity': currentValue
+            };
+
+            fetch(`/update-basket-quantity/${productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        quantityFields[index].value = data.new_quantity;
+                        updateTotalPrice();
+                    }
+                })
+                .catch(error => {
+                    console.error("Ошибка при обращении к серверу. Пожалуйста, попробуйте позже.", error);
+                });
+        }
+
+        function updateTotalPrice() {
+            var priceElements = document.querySelectorAll('.price_prod_form');
+            var totalPrice = 0;
+
+            priceElements.forEach(function (element) {
+                var price = parseFloat(element.innerText.replace(" ₽", ""));
+                totalPrice += price;
+            });
+
+            var totalAmountElement = document.getElementById('total_price');
+            if (totalAmountElement) {
+                totalAmountElement.textContent = totalPrice + " ₽";
+            }
+        }
+
+        // Вызываем функцию обновления общей суммы при загрузке страницы
+        // 
+    });
+</script> {% endcomment %}
+<script defer>
+    document.addEventListener('DOMContentLoaded', function() {
+        var userOrderBtns = document.querySelectorAll('.user_order_btn');
+
+        userOrderBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var parentItem = this.parentElement;
+                parentItem.classList.toggle('active');
+            });
+        });
+    });
+</script>
+
+
+
+{% endblock %}

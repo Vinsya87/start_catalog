@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% load static cache thumbnail phone_norm %}
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preload" href="http://{{ request.get_host }}/static/fonts/montserrat/static/montserrat-regular.ttf"
+    as="font" crossorigin>
+
+  {% comment %}
+  <link rel="preload" href="{% static 'css/bootstrap.min.css' %}" as="style"
+    onload="this.onload=null;this.rel='stylesheet'"> {% endcomment %}
+  <link rel="icon" type="image/png" sizes="16x16" href="http://{{ request.get_host }}/media/favicons/favicon_16x16.png">
+  <link rel="icon" type="image/png" sizes="24x24" href="http://{{ request.get_host }}/media/favicons/favicon_24x24.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="http://{{ request.get_host }}/media/favicons/favicon_32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="http://{{ request.get_host }}/media/favicons/favicon_48x48.png">
+  <link rel="apple-touch-icon" type="image/png" sizes="64x64"
+    href="http://{{ request.get_host }}/media/favicons/favicon_64x64.png">
+  <link rel="apple-touch-icon" type="image/png" sizes="76x76"
+    href="http://{{ request.get_host }}/media/favicons/favicon_76x76.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="http://{{ request.get_host }}/media/favicons/favicon_96x96.png">
+  <link rel="icon" type="image/png" sizes="120x120"
+    href="http://{{ request.get_host }}/media/favicons/favicon_120x120.png">
+  <link rel="apple-touch-icon" type="image/png" sizes="144x144"
+    href="http://{{ request.get_host }}/media/favicons/favicon_144x144.png">
+  <link rel="apple-touch-icon" type="image/png" sizes="152x152"
+    href="http://{{ request.get_host }}/media/favicons/favicon_152x152.png">
+  <link rel="apple-touch-icon" type="image/png" sizes="167x167"
+    href="http://{{ request.get_host }}/media/favicons/favicon_167x167.png">
+  <link rel="apple-touch-icon" type="image/png" sizes="180x180"
+    href="http://{{ request.get_host }}/media/favicons/favicon_180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"
+    href="http://{{ request.get_host }}/media/favicons/favicon_192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512"
+    href="https://{{ request.get_host }}/media/favicons/favicon_512x512.png">
+  <link rel="icon" href="http://{{ request.get_host }}/media/favicons/favicon_16x16.ico" type="image/x-icon">
+  <link rel="icon" href="http://{{ request.get_host }}/media/favicons/favicon_24x24.ico" type="image/x-icon">
+  <link rel="icon" href="http://{{ request.get_host }}/media/favicons/favicon_32x32.ico" type="image/x-icon">
+  <link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.my.css' %}">
+  <link rel="stylesheet" href="{% static 'css/magnific-popup.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}?v={% now "U" %}">
+  <link rel="stylesheet" href="{% static 'css/product.css' %}?v={% now "U" %}">
+  <link rel="stylesheet" href="{% static 'css/category.css' %}?v={% now "U" %}">
+  <link rel="stylesheet" href="{% static 'css/main-media.css' %}?v={% now "U" %}">
+  <link rel="stylesheet" href="{% static 'css/main-media-2.css' %}?v={% now "U" %}">
+  {% if category_articles %}
+
+  <link rel="canonical"
+    href="http://{{ request.get_host }}{{ category_articles.meta_canonical|default:category_articles.get_absolute_url }}">
+  <meta property="og:url"
+    content="http://{{ request.get_host }}{{ request.path }}{{ category_articles.meta_canonical|default:category_articles.get_absolute_url }}">
+  {% endif %}
+  {% if category_product %}
+  <link rel="canonical"
+    href="http://{{ request.get_host }}{{ category_product.meta_canonical|default:category_product.get_absolute_url }}">
+  <meta property="og:url"
+    content="http://{{ request.get_host }}{{ category_product.meta_canonical|default:category_product.get_absolute_url }}">
+  {% endif %}
+  {% if page %}
+  <link rel="canonical" href="http://{{ request.get_host }}{{ page.meta_canonical|default:page.get_absolute_url }}">
+  <meta property="og:url"
+    content="http://{{ request.get_host }}{{ page.meta_canonical|default:page.get_absolute_url }}">
+  {% endif %}
+  {% if post %}
+  <link rel="canonical" href="http://{{ request.get_host }}{{ post.meta_canonical|default:post.get_absolute_url }}">
+  <meta property="og:url"
+    content="http://{{ request.get_host }}{{ post.meta_canonical|default:post.get_absolute_url }}">
+  {% endif %}
+  {% if product %}
+  <link rel="canonical"
+    href="http://{{ request.get_host }}{{ product.meta_canonical|default:product.get_absolute_url }}">
+  <meta property="og:url"
+    content="http://{{ request.get_host }}{{ product.meta_canonical|default:product.get_absolute_url }}">
+  {% endif %}
+  {% if meta_tags.meta_title %}
+  <title>{{ meta_tags.meta_title }}</title>
+  <meta property="og:title" content="{{ meta_tags.meta_title }}">
+  {% else %}
+  <title>{{ meta_title }}</title>
+  <meta property="og:title" content="{{ meta_title }}">
+  {% endif %}
+  {% if meta_tags.meta_description %}
+  <meta name="description" content="{{meta_tags.meta_description}}">
+  <meta property="og:description" content="{{meta_tags.meta_description}}">
+  {% else %}
+  <meta name="description" content="{{meta_description}}">
+  <meta property="og:description" content="{{meta_description}}">
+  {% endif %}
+  <meta property="og:type" content="website">
+
+  {% if post.category %}
+  {% if post.category.blog_type_1 %}
+  {% thumbnail post.image '1200x630' quality=100 crop='left' format='WEBP' as image %}
+  <meta property="og:image" content="http://{{ request.get_host }}{{image.url}}">
+  {% endthumbnail %}
+
+  {% else %}
+  {% thumbnail post.image '1200x630' quality=100 crop='center' format='WEBP' as image %}
+  <meta property="og:image" content="http://{{ request.get_host }}{{image.url}}">
+  {% endthumbnail %}
+  {%endif%}
+  {%endif%}
+
+  {% if product %}
+  {% thumbnail product.image '1200x630' quality=100 crop='left' format='WEBP' as image %}
+  <meta property="og:image" content="http://{{ request.get_host }}{{image.url}}">
+  {% endthumbnail %}
+  {% endif %}
+
+  {% if not post.category and not product %}
+  {% thumbnail config_seo.og_img '1200x630' quality=100 crop='left' format='WEBP' as image %}
+  <meta property="og:image" content="http://{{ request.get_host }}{{image.url}}">
+  {% endthumbnail %}
+  {%endif%}
+
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  {% include 'includes/yandex-metrika.html' %}
+  {% include 'includes/json.html' %}
+
+</head>
+
+<body
+  class="{% if page %}page_body {{ page.slug }}{% endif%} {% if category %}category_body {{ category.slug }}{% endif%} {% if post %}post_body {{ post.category.slug }}{% endif%}"
+  id="body_id">
+
+  {% if user.is_staff %}
+  <div class="admin-panel">
+    <div class="container">
+      <a href="{% url 'main_url:clear_cache' %}">Сбросить весь кеш</a>
+
+      {% if page %}
+      <a target="_blank" href="{% url 'admin:articles_page_change' page.id %}">Ссылка на страницу</a>
+
+      {% endif %}
+      {% if user.is_superuser %}
+      <a href="{% url 'main_url:clear_session' %}">Сбросить все сессии</a>
+      {% endif %}
+      {% if post %}
+      <a target="_blank" href="{% url 'admin:articles_post_change' post.id %}">Запись</a>
+
+      {% endif %}
+      {%if category_articles %}
+      <a target="_blank" href="{% url 'admin:articles_head_change' category_articles.id %}">Категория</a>
+      {%endif%}
+      {%if product %}
+      <a target="_blank" href="{% url 'admin:catalog_product_change' product.id %}">Ссылка на продукт</a>
+      {%endif%}
+      <a href="/admin">Админ панель</a>
+    </div>
+  </div>
+  {% endif %}
+  <!-- Модальное входа -->
+  <div class="modal_reg" id="authModal">
+    <div class="modal_dialog" role="document">
+      <div class="modal_content">
+        <div class="close_modal">
+          <span>&times;</span>
+        </div>
+        <div class="modal_header">
+          <h5 class="modal_title" id="authModalLabel">Личный кабинет</h5>
+
+        </div>
+        <div class="modal_body">
+          <form id="authForm" action="{% url 'users:login' %}" method="post">
+            {% csrf_token %}
+            <div class="form_group form_group_input">
+
+              <input placeholder="Логин" type="text" class="form_control" id="username_sign" name="username" required
+                autocomplete="username">
+            </div>
+
+
+            <div class="form_group form_group_input">
+              <input placeholder="Пароль" type="password" class="form_control" id="password_sign" name="password"
+                required autocomplete="new-password">
+            </div>
+            <!-- Кнопки для авторизации и регистрации -->
+            <div class="form_group form_group_btn">
+              <button type="submit" class="btn_main btn_main_modal">
+                <p>Войти</p>
+              </button>
+            </div>
+            <div class="error_login">
+
+            </div>
+            <div class="form_group form_group_reg">
+              <div class="news_btn">
+                <p>Зарегистрироваться</p>
+              </div>
+
+            </div>
+            <div class="news_btn forgot_you">
+              <p><a href="{% url 'reset_password' %}">Забыли пароль?</a>
+              </p>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Модальное регистрации -->
+  <div class="modal_reg" id="authModalreg">
+    <div class="modal_dialog" role="document">
+      <div class="modal_content">
+        <div class="close_modal">
+          <span>&times;</span>
+        </div>
+        <div class="modal_header">
+          <h5 class="modal_title" id="authModalLabel">Регистрация</h5>
+
+        </div>
+        <div class="modal_body">
+          <form id="regForm" action="{% url 'users:register' %}" method="post">
+            {% csrf_token %}
+            <div class="form_group form_group_input">
+
+              {{register_form.username}}
+            </div>
+            <div class="form_group form_group_input">
+              {{register_form.first_name}}
+            </div>
+            <div class="form_group form_group_input">
+              {{register_form.last_name}}
+            </div>
+            <div class="form_group form_group_input">
+              {{register_form.phone}}
+            </div>
+            <div class="form_group form_group_input">
+              {{register_form.email}}
+            </div>
+            <div class="form_group form_group_input">
+              {{register_form.password}}
+            </div>
+            <div class="form_group form_group_input">
+              {{register_form.password_repeat}}
+            </div>
+            <div class="policy_form">
+              <input type="checkbox" name="privacy_policy" id="privacy_policy_checkbox_7" required>
+              <label for="privacy_policy_checkbox_7">Я согласен с <a href="/policy">политикой безопасности</a> и <a
+                  href="/rules"> правилами</a></label>
+            </div>
+            <!-- Кнопки для авторизации и регистрации -->
+            <div class="form_group form_group_btn">
+              <button type="submit" class="btn_main btn_main_modal">
+                <p>Зарегистрироваться</p>
+              </button>
+            </div>
+            <div class="error_login">
+
+            </div>
+            <div class="forgot_you">
+              <p>Уже есть аккаунт? <span class="span_prev">Войти</span></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Offcanvas-->
+  <div id="offcan_main" class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
+    aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <div class="lk_offcan">
+
+
+      </div>
+      <button id="offcan_off" type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close">
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#000'>
+          <path
+            d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z' />
+        </svg>
+      </button>
+    </div>
+    {% cache config.cache Offcanvas %}
+    <div class="offcanvas-body">
+      <a href="/" class="header_item">
+        <p>Главная</p>
+      </a>
+
+      {% for menu_item in mobile_menu_items %}
+      <div class="header_item_div active_script ">
+        {% if menu_item.category %}
+        <div class="header_item">
+          <p>{{ menu_item.title }}</p>
+        </div>
+        <ul class="wwwww header_item_ul">
+          {% for post in menu_item.category.posts.all %}
+          {% if post.is_published %}
+          <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+        {% elif menu_item.submenus.all %}
+        <div class="header_item">
+          <p>{{ menu_item.title }}</p>
+        </div>
+        <ul class="wwwww header_item_ul">
+          {% for submenu in menu_item.submenus.all %}
+          {% if submenu.title %}
+          <li><a href="{% url 'main_url:main_index' %}{{ submenu.url }}">{{ submenu.title }}</a></li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+        {% else %}
+        <a href="{% url 'main_url:main_index' %}{{ menu_item.url }}" class="header_item">
+          <p>{{ menu_item.title }}</p>
+        </a>
+        {% endif %}
+      </div>
+      {% endfor %}
+      <div class="offcan_data_tel">
+        <div class="phone_top_main">
+          {% if config.phone_number %}
+          <p><a href="tel:{{ config.phone_number|format_phone_number }}">{{ config.phone_number }}</a></p>
+
+          {% endif %}
+          {% if config.phone_number_two and config.phone_two_url %}
+          <p><a href="tel:{{ config.phone_two_url }}">{{ config.phone_number_two }}</a></p>
+
+          {% endif %}
+          <span class="write_me">Написать сообщение</span>
+        </div>
+
+        <div class="social_main_index">
+          {% if config.telegram and config.telegram_img %}
+          <a href="{{config.telegram}}"><img src="{{config.telegram_img.url}}" alt=""></a>
+          {% endif %}
+          {% if config.whatsapp and config.whatsapp_img %}
+          <a href="{{config.whatsapp}}"><img src="{{config.whatsapp_img.url}}" alt=""></a>
+          {% endif %}
+          {% if config.vk and config.vk_img %}
+          <a href="{{config.vk}}"><img src="{{config.vk_img.url}}" alt=""></a>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+    {% endcache %}
+  </div>
+
+  <!-- Удачно отправлено -->
+  <div class="modal_reg" id="write_ok">
+    <div class="modal_dialog" role="document">
+      <div class="modal_content">
+        <div class="close_modal">
+          <span>&times;</span>
+        </div>
+        <div class="modal_header">
+          <h5 class="modal_title" id="authModalLabel">Cообщение</h5>
+        </div>
+        <div class="modal_body">
+          <p class="write_ok">Ваше сообщение успешно отправлено. В ближайшее время, мы с вами свяжемся, спасибо!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Модальное написать -->
+  <div class="modal_reg" id="write_me2">
+    <div class="modal_dialog" role="document">
+      <div class="modal_content">
+        <div class="close_modal">
+          <span>&times;</span>
+        </div>
+        <div class="modal_header">
+          <h5 class="modal_title" id="authModalLabel">Написать сообщение</h5>
+
+        </div>
+        <div class="modal_body">
+          <form id="writeForm" action="{% url 'mail_post:send_email' %}" method="post">
+            {% csrf_token %}
+            <div class="form_group form_group_input">
+              <input placeholder="Ваше имя *" type="text" class="form_control" id="write_name" name="username" required
+                autocomplete="name">
+            </div>
+            <div class="form_group form_group_input">
+              <input placeholder="E-mail" type="email" class="form_control" id="write_email" name="email"
+                autocomplete="email">
+            </div>
+            <div class="form_group form_group_input">
+              <input placeholder="Телефон *" type="tel" class="form_control" id="write_tel" name="tel"
+                autocomplete="tel" required>
+            </div>
+            <div class="form_group">
+              <textarea class="form_control" placeholder="Уточните ваши пожелания, по времени или причину обращения *"
+                id="floatingTextarea2" name="message" style="height: 100px" required></textarea>
+            </div>
+            <div class="policy_form">
+              <input type="checkbox" name="privacy_policy" id="privacy_policy_checkbox" required>
+              <label for="privacy_policy_checkbox">Я согласен с <a href="/policy">политикой безопасности</a></label>
+            </div>
+
+            <!-- Кнопки для авторизации и регистрации -->
+            <div class="form_group form_group_btn">
+              <button type="submit" class="btn_main btn_main_modal">
+                <p>Отправить</p>
+              </button>
+            </div>
+            <div class="error_login2">
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Модальное написать ---2 -->
+  <div class="modal_reg" id="write_me">
+    <div class="modal_dialog" role="document">
+      <div class="modal_content">
+        <div class="close_modal">
+          <span>&times;</span>
+        </div>
+        <div class="modal_header">
+          <h5 class="modal_title" id="authModalLabel">Заказать звонок</h5>
+
+        </div>
+        <div class="modal_body">
+
+          <form id="writeForm_2" action="{% url 'mail_post:send_email_two' %}" method="post">
+            {% csrf_token %}
+            {{ form_feed.as_p }}
+            <div class="policy_form">
+              <input type="checkbox" name="privacy_policy" id="privacy_policy_checkbox_2" required>
+              <label for="privacy_policy_checkbox_2">Я согласен с <a href="/policy">политикой безопасности</a></label>
+            </div>
+
+            <div class="form_group form_group_btn">
+              <button type="submit" class="btn_main btn_main_modal">
+                <p>Отправить</p>
+              </button>
+            </div>
+            <div class="error_login">
+              {% for field, error_list in form.errors.items %}
+              {% for error in error_list %}
+              <span class="field-error">{{ error }}</span>
+              {% endfor %}
+              {% endfor %}
+            </div>
+          </form>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Модальное отзыв отправлен -->
+  <div class="modal_reg " id="review_ok">
+    <div class="modal_dialog" role="document">
+      <div class="modal_content">
+        <div class="close_modal">
+          <span>&times;</span>
+        </div>
+        <div class="modal_header">
+          <h5 class="modal_title" id="authModalLabel">Cообщение</h5>
+        </div>
+        <div class="modal_body">
+          <p class="write_ok">Ваш отзыв успешно отправлен! Спасибо большое! Ваше мнение очень важно для нас.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Модальное написать отзыв -->
+  {% if not product %}
+  {% if review_form %}
+  <div class="modal_reg" id="review_write">
+    <div class="modal_dialog" role="document">
+      <div class="modal_content">
+        <div class="close_modal">
+          <span>&times;</span>
+        </div>
+        <div class="modal_header">
+          <h5 class="modal_title" id="authModalLabel">Написать отзыв</h5>
+
+        </div>
+        <div class="modal_body">
+          <form id="review-form" method="post" action="{% url 'reviews:add_review' %}">
+            {% csrf_token %}
+            {{ review_form }}
+            <div class="policy_form">
+              <input type="checkbox" name="privacy_policy" id="privacy_policy_checkbox_3" required>
+              <label for="privacy_policy_checkbox_3">Я согласен с <a href="/policy">политикой безопасности</a></label>
+            </div>
+            <div class="form_group form_group_btn">
+              <button type="submit" class="btn_main btn_main_modal">
+                <p>Отправить</p>
+              </button>
+            </div>
+          </form>
+          <div id="review-form-errors">
+            {{ form.non_field_errors }}
+            {% for field in form %}
+            {% if field.errors %}
+            {% for error in field.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% endif %}
+
+
+
+  <div class="body_main">
+
+    <header>
+      {% include 'includes/header.html' %}
+    </header>
+
+    <main>
+
+      {% block content %}
+      {% endblock %}
+
+    </main>
+  </div>
+
+  {% cache config.cache footer %}
+  <footer class="">
+    {% include 'includes/footer.html' %}
+  </footer>
+  {% endcache %}
+  <script src="{% static 'js/jquery3-6-0.min.js' %}"></script>
+  <script defer src="{% static 'js/swiper-bundle.min.js' %}"></script>
+  <script defer src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+
+  <script defer src="{% static 'js/main.js' %}?v={% now "U" %}"></script>
+</body>

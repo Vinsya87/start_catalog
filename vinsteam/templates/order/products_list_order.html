@@ -1,0 +1,78 @@
+{% load thumbnail product_price basket_tags %}
+
+<div class="product_item_main_basket">
+  <div class="prod_top_basket">
+    <div class="prod_top_img_basket">
+      <a href="{% url 'catalog_url:product_detail' slug=product.product.slug %}">
+        {% if product.product.get_first_image %}
+        {% thumbnail product.product.get_first_image "200" format="WEBP" quality=80 as im %}
+        <img class="img_product_top" src="{{ im.url }}" width="{{ im.width }}">
+        {% endthumbnail %}
+
+        {% else %}
+        {% thumbnail config.image_no "150" format="WEBP" quality=80 as im %}
+        <img class="img_product_top" src="{{ im.url }}" width="{{ im.width }}">
+        {% endthumbnail %}
+        {% endif %}
+      </a>
+      <form id="favorite-form-{{ product.product.pk }}" class="favorite-form" method="post"
+        action="{% url 'catalog_url:add_to_favorite' pk=product.product.pk %}">
+        {% csrf_token %}
+        <button disabled class="wish_prod 
+        {% if request.user.is_authenticated and product.product.pk in favorite_products %}
+              active
+            {% endif %}
+            {% if not request.user.is_authenticated %}
+             {% if product.product.pk in favorite_products %}
+                 active
+             {% endif %}
+            {% endif %}" type="submit" class="add-to-favorite-btn " data-id="{{ product.product.pk }}">
+
+          <div>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M6.979 3.074C7.86407 2.92319 8.77169 2.97294 9.63497 3.21957C10.4982 3.46619 11.2952 3.90341 11.967 4.499L12.004 4.532L12.038 4.502C12.6792 3.93929 13.433 3.51979 14.2492 3.27148C15.0653 3.02317 15.9251 2.95175 16.771 3.062L17.017 3.098C18.0833 3.28211 19.08 3.75115 19.9015 4.45547C20.723 5.15978 21.3387 6.07314 21.6835 7.09883C22.0282 8.12452 22.0892 9.22436 21.8599 10.2819C21.6306 11.3394 21.1196 12.3152 20.381 13.106L20.201 13.291L20.153 13.332L12.703 20.711C12.5311 20.8812 12.3033 20.9832 12.0619 20.9983C11.8205 21.0134 11.5818 20.9404 11.39 20.793L11.296 20.711L3.803 13.289C3.00922 12.5167 2.4447 11.5397 2.17196 10.4663C1.89922 9.39285 1.92891 8.26489 2.25772 7.20731C2.58654 6.14973 3.20166 5.20379 4.03497 4.47427C4.86827 3.74474 5.88723 3.26009 6.979 3.074Z"
+                fill="#FA2F35" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </button>
+      </form>
+    </div>
+    <div class="prod_top_main_basket">
+      <div class="prod_basket_desc">
+        <a href="{% url 'catalog_url:product_detail' slug=product.product.slug %}" class="prod_top_title_basket">
+          <p class="title_prod">{{ product.product.title }} </p>
+        </a>
+        <p><span>Состав: </span>{{product.product.composition}}</p>
+      </div>
+
+      <div class="prod_down_basket">
+        {% get_product_price_for_city product.product as product_price %}
+        {% if product_price %}
+        <div class="prod_cart_main">
+          
+          <div class="prod_cart_price">
+
+            <div class="form_in_cart_prod active">
+              
+              <div class="product_cart_form">
+                <div class="product_cart_quantity">{{product.quantity}} шт.</div>
+                
+                <p class="price_prod_form" data-price="{% get_basket_product_total_price product %}">{% get_basket_product_total_price product %} ₽ </p>
+                <input type="hidden" name="price" value="{{ product_price }}">
+                <input type="hidden" class="product_id" value="{{ product.product.id }}">
+              </div>
+            </div>
+          </div>
+        </div>
+          {% else %}
+          <p class="no_items">
+            Нет в наличии
+          </p>
+        
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>

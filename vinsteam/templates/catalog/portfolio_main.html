@@ -1,0 +1,22 @@
+{% load thumbnail %}
+
+
+<div class="product_item_main swiper-slide {%if product.images.all.1.image %} active {% endif %}">
+  <a href="{% url 'catalog_url:portfolio_detail' slug=product.slug %}" class="product-link">
+    <div class="prod_top fit">
+      {% if product.images.exists %}
+      
+      {% thumbnail product.images.first.image "300" format="WEBP" quality=75 as im %}
+      <img class="first-image" src="{{ im.url }}" width="{{ im.width }}" loading="lazy">
+      {% endthumbnail %}
+
+      {% thumbnail product.images.all.1.image "300" format="WEBP" quality=75 as second_image %}
+      <img class="second-image" src="{{ second_image.url }}" width="{{ second_image.width }}" loading="lazy">
+      {% endthumbnail %}
+      {% else %}
+      <img src="{{config.placeholder.url}}">
+
+      {% endif %}
+    </div>
+  </a>
+</div>

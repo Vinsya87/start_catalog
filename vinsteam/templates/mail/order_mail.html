@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новый заказ</title>
+</head>
+<body>
+    <h2>Новый заказ</h2>
+    <p>Детали:</p>
+    <ul>
+        <li>Номер заказа: {{ order.id }}</li>
+        <li>Имя: {{ order.name }}</li>
+        <li>Телефон: {{ order.phone }}</li>
+        <li>Email: {{ order.email }}</li>
+        <li>Дата доставки: {{ order.delivery_date }}</li>
+        <li>Время доставки: {{order.get_time_range_display}}</li>
+        <li>Создан: {{ order.created_at }}</li>
+        <li>Адрес: {{ order.address }}</li>
+        <li>Сообщение: {{ order.message }}</li>
+        <!-- Здесь можно добавить больше деталей заказа -->
+    </ul>
+    <p>Вот детали заказа:</p>
+    <ul>
+        {% for item in order.items.all %}
+            <li>{{ item.product.title }} - {{ item.quantity }} шт. - {{ item.product.price }} руб/шт.</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Общая сумма: {{ order.total_price }}</strong></p>
+    <p>Вы можете посмотреть заказ <a href="{{ order_admin_link }}">здесь</a> в административной панели.</p>
+</body>
+</html>

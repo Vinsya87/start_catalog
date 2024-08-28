@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+{% load thumbnail %}
+{% include 'includes/profile_items_main_mobile.html' %}
+<div class="content_main category_index basket_index">
+  <div class="container">
+    {% include 'includes/profile_items_main.html' %}
+    <div class="category_index_main hits_main">
+      <div class="category_sort_main">
+        <div class="title_index">
+          <h2>{{ page_name }}</h2>
+        </div>
+      </div>
+      {% if baskets %}
+      {% for product in products_with_prices %}
+      {% include 'order/products_list_basket.html' %}
+      {% endfor %}
+      <div class="orders_total_main">
+        <p>Всего: <span id="total_price">0 ₽</span></p>
+      
+        <button class="btn_main" onclick="window.location.href = '{% url 'basket:order' %}'">
+          <p>Перейти к оформлению</p>
+        </button>
+      </div>
+
+      {% else %}
+      <div class="info_text_main">
+        <p class="info_text">В корзине нет товара</p>
+        <a href="{% url 'catalog_url:category_all' %}" class="info_text_link"> Перейти в каталог</a>
+      </div>
+      
+      {%endif%}
+    </div>
+
+  </div>
+</div>
+<script defer>
+  document.addEventListener("DOMContentLoaded", function () {
+    updateTotalPrice();
+
+    // Остальной код для работы с корзиной
+    const minusButtons = document.querySelectorAll('.minus');
+    const plusButtons = document.querySelectorAll('.plus');
+    const quantityFields = document.querySelectorAll('.quantity input');
+    const priceFields = document.querySelectorAll('.price_prod_form');
+    const productIdFields = document.querySelectorAll('.product_id');
+    const basePrices = document.querySelectorAll('input[name="price"]');
+
+    minusButtons.forEach((minusButton, index) => {
+      minusButton.addEventListener('click', () => {
+        updateQuantity(index, -1);
+      });
+    });
+
+    plusButtons.forEach((plusButton, index) => {
+      plusButton.addEventListener('click', () => {
+        updateQuantity(index, 1);
+      });
+    });
+
+    quantityFields.forEach((quantityField, index) => {
+      quantityField.addEventListener('input', () => {
+        updatePrice(index);
+      });
+    });
+
+    function updatePrice(index) {
+      let currentValue = parseInt(quantityFields[index].value);
+      
+      if (currentValue >= 1) {
+        let priceValue = parseFloat(basePrices[index].value);
+        const calculatedPrice = currentValue * priceValue;
+        priceFields[index].innerText = calculatedPrice + " ₽";
+        updateQuantityInDatabase(currentValue, index);
+      }
+    }
+
+    function updateQuantity(index, change) {
+      let currentValue = parseInt(quantityFields[index].value) + change;
+ 
+      if (currentValue >= 1) {
+        quantityFields[index].value = currentValue;
+        updatePrice(index);
+      }
+    }
+
+    function updateQuantityInDatabase(currentValue, index) {
+      const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+      const productId = parseInt(productIdFields[index].value);
+      const data = {
+        'new_quantity': currentValue
+      };
+
+      fetch(`/update-basket-quantity/${productId}/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            quantityFields[index].value = data.new_quantity;
+            updateTotalPrice();
+          } else {
+            console.error("Error updating quantity in database.");
+          }
+        })
+        .catch(error => {
+          console.error("Ошибка при обращении к серверу. Пожалуйста, попробуйте позже.", error);
+        });
+    }
+
+    function updateTotalPrice() {
+      var priceElements = document.querySelectorAll('.price_prod_form');
+      var totalPrice = 0;
+
+      priceElements.forEach(function (element, index) {
+        var priceText = element.innerText.replace(" ₽", "").replace(/\s+/g, '');
+        var price = parseFloat(priceText);
+        
+        if (!isNaN(price)) {
+          totalPrice += price;
+        } else {
+          console.error(`Failed to parse price for element ${index}: ${priceText}`);
+        }
+      });
+
+      var totalAmountElement = document.getElementById('total_price');
+      if (totalAmountElement) {
+        totalAmountElement.textContent = totalPrice + " ₽";
+      } else {
+        console.error('Element with id "total_price" not found.');
+      }
+    }
+  });
+</script>
+
+{% endblock %}

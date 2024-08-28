@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+{% load thumbnail %}
+{% include 'includes/profile_items_main_mobile.html' %}
+<div class="content_main category_index">
+  <div class="container">
+    {% include 'includes/profile_items_main.html' %}
+    <div class="category_index_main hits_main">
+      <div class="category_sort_main">
+        <div class="title_index">
+          <h2>{{ page_name }}</h2>
+        </div>
+      </div>
+      {% if user.is_authenticated %}
+      <div class="profile_main">
+        <form class="form_group_form" method="post" action="{% url 'users:edit_address' pk=address.pk %}">
+          {% csrf_token %}
+          
+          <div class="form_group_profile">
+              {{ form.name }}
+          </div>
+          <div class="form_group_profile">
+              {{ form.city }}
+          </div>
+          <div class="form_group_profile">
+              {{ form.street }}
+          </div>
+          <div class="form_group_profile">
+              {{ form.building }}
+          </div>
+          <div class="form_group_profile">
+              {{ form.apartment }}
+          </div>
+          <button class="btn_main" type="submit">Редактировать адрес</button>
+      </form>
+      </div>
+      {% else %}
+      <div class="info_text_main">
+        <p class="info_text">Пожалуйста, войдите в систему.</p>
+        <p class="lk_top_sign info_text_link lk_top"> Войти</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

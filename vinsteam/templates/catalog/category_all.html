@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+{% load thumbnail %}
+{% include 'includes/breadcrumbs.html' %}
+<div class="catalog_mobile_main_container">
+  <div class="catalog_mobile_main">
+    <button id="catalog_mobile_btn" class="btn_sort">
+      Продукция
+    </button>
+    <span class="span_sort span_catalog">
+      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M1.08754 0.837541C1.31535 0.609736 1.68469 0.609736 1.9125 0.837541L5.00002 3.92506L8.08754 0.837541C8.31535 0.609736 8.68469 0.609736 8.9125 0.837541C9.14031 1.06535 9.14031 1.43469 8.9125 1.6625L5.4125 5.1625C5.18469 5.39031 4.81535 5.39031 4.58754 5.1625L1.08754 1.6625C0.859736 1.43469 0.859736 1.06535 1.08754 0.837541Z"
+          fill="#828282"></path>
+      </svg>
+
+    </span>
+    <div class="dropdown_menu">
+      {% for category in categories_all %}
+      <div class="catalog_mobile_item">
+        {% if category.get_descendants %}
+        <p>{{ category.title }}</p>
+        <span class="span_sort span_catalog">
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M1.08754 0.837541C1.31535 0.609736 1.68469 0.609736 1.9125 0.837541L5.00002 3.92506L8.08754 0.837541C8.31535 0.609736 8.68469 0.609736 8.9125 0.837541C9.14031 1.06535 9.14031 1.43469 8.9125 1.6625L5.4125 5.1625C5.18469 5.39031 4.81535 5.39031 4.58754 5.1625L1.08754 1.6625C0.859736 1.43469 0.859736 1.06535 1.08754 0.837541Z"
+              fill="#828282"></path>
+          </svg>
+
+        </span>
+        <ul class="catalog_mobile_item_ul">
+          {% for subcategory in category.get_descendants %}
+          <li><a href="{% url 'catalog_url:category_detail' subcategory.slug %}">{{ subcategory.title }}</a></li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <a href="{% url 'catalog_url:category_detail' category.slug %}">{{ category.title }}</a>
+
+        {% endif %}
+
+      </div>
+      {% endfor %}
+
+      <!-- <a class="dropdown-item dropdown_sort" href="#" data-value="price_asc">Дешевле</a>
+        <a class="dropdown-item dropdown_sort" href="#" data-value="price_desc">Дороже</a>
+        <a class="dropdown-item dropdown_sort" href="#" data-value="popularity">Популярные</a> -->
+    </div>
+
+
+  </div>
+</div>
+<div class="content_main category_index">
+  <div class="container">
+    <div class="category_items_main">
+      {% for cat in categories %}
+      <div
+        class="category_top {% if category.parent and category.parent.slug == cat.slug or category.slug == cat.slug %}active{% endif %}">
+
+        {% if cat.get_children %}
+        <p class="cat_gl cat_gl_p">{{ cat.title }}</p>
+        <ul class="category_pod">
+          {% for subcat in cat.get_children %}
+          <li>
+            <p class="cat_gl"><a href="{% url 'catalog_url:category_detail' subcat.slug %}">{{ subcat.title }}</a></p>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="cat_gl"><a href="{% url 'catalog_url:category_detail' cat.slug %}">{{ cat.title }}</a></p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+
+
+
+
+
+
+
+    <div class="category_index_main hits_main">
+
+      {% for subcategory in categories %}
+
+      <div class="product_item_main product_item_main_subcat">
+        <a href="{% url 'catalog_url:category_detail' subcategory.slug %}" class="prod_top">
+          <div class="prod_top_img">
+            {% if subcategory.image %}
+            {% thumbnail subcategory.image "300" format="WEBP" quality=75 as im %}
+            <img src="{{ im.url }}" width="{{ im.width }}">
+            {% endthumbnail %}
+            {% else %}
+            <img src="{{config.placeholder.url}}">
+            {% endif %}
+          </div>
+          <div class="prod_top_title">
+            <p class="title_prod">{{ subcategory.title }}</p>
+          </div>
+        </a>
+      </div>
+        {% endfor %}
+
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

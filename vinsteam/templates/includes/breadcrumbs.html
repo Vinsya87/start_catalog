@@ -1,0 +1,184 @@
+<div class="breadcrumbs_main container" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <ul>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="/" itemprop="item"><span itemprop="name">Главная</span></a>
+            <meta itemprop="position" content="1" />
+        </li>
+        {% if category_articles %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ category_articles.title }}</span>
+            <meta itemprop="position" content="2" />
+        </li>
+        {% if category_articles.parent %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{% url 'catalog_url:category_detail' category_articles.parent.slug %}" itemprop="item"><span
+                    itemprop="name">{{ category_articles.parent.title }}</span></a>
+            <meta itemprop="position" content="3" />
+        </li>
+        {% endif %}
+        {% if object.category_articles.parent %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{% url 'catalog_url:category_detail' object.category_articles.parent.slug %}" itemprop="item"><span
+                    itemprop="name">{{object.category_articles.parent.title}}</span></a>
+            <meta itemprop="position" content="4" />
+        </li>
+        {% endif %}
+        {% if object.category_articles %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{% url 'catalog_url:category_detail' object.category_articles.slug %}" itemprop="item"><span
+                    itemprop="name">{{object.category_articles.title}}</span></a>
+            <meta itemprop="position" content="5" />
+        </li>
+        {% endif %}
+        {% comment %} <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ object.title }}</span>
+            <meta itemprop="position" content="6" />
+        </li> {% endcomment %}
+        {% endif %}
+
+        {% if categories %}
+
+        {% if catalog %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Каталог</span>
+            <meta itemprop="position" content="2" />
+        </li>
+        {% else %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="/category/" itemprop="item"><span itemprop="name">Каталог</span></a>
+            <meta itemprop="position" content="2" />
+        </li>
+        {% endif%}
+
+
+        {% if category_product %}
+
+        {% if category_product.parent %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{% url 'catalog_url:category_detail' category_product.parent.slug %}" itemprop="item"><span
+                    itemprop="name">{{ category_product.parent.title }}</span></a>
+            <meta itemprop="position" content="3" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ category_product.title }}</span>
+            <meta itemprop="position" content="4" />
+        </li>
+        {% else %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ category_product.title }}</span>
+            <meta itemprop="position" content="3" />
+        </li>
+        {% endif %}
+
+        {% endif %}
+
+
+        {% comment %} {% if object.category_product.parent %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{% url 'catalog_url:category_detail' object.category_articles.parent.slug %}" itemprop="item"><span
+                    itemprop="name">{{object.category_articles.parent.title}}</span></a>
+            <meta itemprop="position" content="4" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{% url 'catalog_url:category_detail' product.category.slug %}" itemprop="item"><span
+                    itemprop="name">{{product.category}}</span></a>
+            <meta itemprop="position" content="6" />
+        </li>
+        {% endif %} {% endcomment %}
+        {% if product %}
+        
+        {% if product.category.parent %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{% url 'catalog_url:category_detail' product.category.parent.slug %}" itemprop="item"><span
+                    itemprop="name">{{ product.category.parent.title }}</span></a>
+            <meta itemprop="position" content="3" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{% url 'catalog_url:category_detail' product.category.slug %}" itemprop="item"><span
+                    itemprop="name">{{ product.category.title }}</span></a>
+            <meta itemprop="position" content="4" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ product.title }}</span>
+            <meta itemprop="position" content="5" />
+        </li>
+        {% else%}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{% url 'catalog_url:category_detail' product.category.slug %}" itemprop="item"><span
+                    itemprop="name">{{ product.category.title }}</span></a>
+            <meta itemprop="position" content="3" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ product.title }}</span>
+            <meta itemprop="position" content="4" />
+        </li>
+        {% endif %}
+
+        {% endif %}
+
+        {% endif %}
+
+        {% if portfolio %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{% url 'catalog_url:portfolio_list' %}" itemprop="item"><span
+                    itemprop="name">Портфолио</span></a>
+            <meta itemprop="position" content="2" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ portfolio.title }}</span>
+            <meta itemprop="position" content="3" />
+        </li>
+        {% elif articles %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{% url 'articles:articles' %}" itemprop="item"><span
+                    itemprop="name">{{ post.category.title }}</span></a>
+            <meta itemprop="position" content="2" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ post.title }}</span>
+            <meta itemprop="position" content="3" />
+        </li>
+        {% elif post %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{% url 'articles:post_list_by_category' post.category.slug %}" itemprop="item"><span
+                    itemprop="name">{{ post.category.title }}</span></a>
+            <meta itemprop="position" content="2" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ post.title }}</span>
+            <meta itemprop="position" content="3" />
+        </li>
+        {% endif %}
+
+
+        {% if query %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">Поиск: {{ query }}</span>
+            <meta itemprop="position" content="2" />
+        </li>
+        {% endif %}
+        {% if page %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ page.title }}</span>
+            <meta itemprop="position" content="2" />
+        </li>
+        {% endif %}
+
+        {% comment %} {% if product %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{product.post.category.get_absolute_url}}" itemprop="item"><span
+                    itemprop="name">{{ product.post.category.title }}</span></a>
+            <meta itemprop="position" content="2" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{product.post.get_absolute_url}}" itemprop="item"><span
+                    itemprop="name">{{ product.post.title }}</span></a>
+            <meta itemprop="position" content="3" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ product.title }} - {{ product.length }}м</span>
+            <meta itemprop="position" content="4" />
+        </li>
+        {% endif %} {% endcomment %}
+    </ul>
+</div>

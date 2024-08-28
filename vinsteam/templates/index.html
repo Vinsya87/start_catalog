@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+{% load cache %}
+
+<div class="content_main">
+  {% cache config.cache slider_main %}
+
+  {% include 'includes/slider_main.html' %}
+<div class="posts_main">
+  <div class="frame">
+    <div class="container">
+      {% include 'articles/posts_article.html' %}
+    </div>
+  </div>
+</div>
+  
+  <div class="primary_block">
+    <div class="container">
+      {{page.content_ckeditor|safe}}
+
+    </div>
+  </div>
+  {% endcache %}
+  {% include 'catalog/hits_main.html' %}
+
+
+  {% comment %} <div class="post_call_main post_call_main_index">
+    <div class="container">
+      {% for block in content_blocks %}
+      {% if block.number == 201 %}
+
+      {{ block.content_ckeditor|safe }}
+
+      {% endif %}
+      {% endfor %}
+
+    </div>
+  </div> {% endcomment %}
+  {% if portfolios %}
+  <div class="category_index_main_top index_catalog index_catalog_mb0">
+    <div class="frame">
+      <div class="container">
+        <div class="slider_global">
+          <div class="title_index">
+            <h4 class="index_catalog_title">
+              <a href="/portfolio/">
+                <span>Наши</span> проекты
+              </a>
+            </h4>
+          </div>
+          <div class="category_index_main hits_main_parent">
+            <div class="swiper-wrapper">
+              {% for product in portfolios %}
+              {% include 'catalog/portfolio_main.html' %}
+              {% endfor %}
+            </div>
+          </div>
+          <div class="swiper-button-prev index-prev"></div>
+          <div class="swiper-button-next index-next"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  {% endif%}
+  <div class="container">
+    <div class="reviews_main">
+      <div class="special_title news_title">
+        <div class="title_index">
+          <h2>Отзывы</h2>
+        </div>
+        <button class="btn_mini">
+          <a href="{% url 'reviews:reviews_list' %}">
+            <p>Все отзывы</p>
+          </a>
+        </button>
+      </div>
+
+
+      {% include 'reviews/reviews.html' %}
+
+
+
+
+      <div class="review_write_btn_main">
+        <div class="review_write_btn ">
+          <p class="btn_mini">Написать отзыв</p>
+        </div>
+      </div>
+
+
+      {% if enabled_reviews %}
+      <div class="modal_reg modal_review" id="review_full">
+        <div class="modal_dialog" role="document">
+          <div class="modal_content">
+            <div class="close_modal">
+              <span>&times;</span>
+            </div>
+            <div class="modal_header">
+              <h5 class="modal_title" id="authModalLabel">Весь отзыв</h5>
+            </div>
+            <div class="modal_body">
+              <div class="review_header">
+                <span class="review_date">{{ review.created_at|date:"d.m.Y" }}</span>
+                <span class="review_name">{{ review.name }}</span>
+              </div>
+              <div class="review_text">{{ review.text }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <!-- Модальное показать весь отзыв -->
+
+
+  </div>
+
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

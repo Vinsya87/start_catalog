@@ -1,0 +1,65 @@
+{% load thumbnail %}
+<div class="slider_top_main">
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      {% for slide in sliders %}
+      <div class="{{slide.class_css}} slider_top_item swiper-slide">
+        <div class="slider_top_item_img">
+          {% if slide.image %}
+
+          <div class="slider_decstop_item over">
+            
+
+
+            <picture class="fit">
+              {% thumbnail slide.image '750' quality=90 crop='center' format='WEBP' as image %}
+              <source media="(max-width: 767px)" srcset="{{ image.url }}">
+              {% endthumbnail %}
+
+              {% comment %} <source media="(max-width: 767px)" srcset="/media/cache/4f/42/4f4208bad294a535115282589d0013be.webp"> {% endcomment %}
+              {% thumbnail slide.image '1920' quality=90 crop='center' format='WEBP' as image %}
+              <img src="{{ image.url }}" alt="{{ slide.title }}" loading="lazy" />
+              {% endthumbnail %}
+            </picture>
+            
+
+          </div>
+          {% endif %}
+
+          {% if slide.image_mobile %}
+          <div class="slider_mobile_item">
+
+            {% if forloop.first %}
+            <img src="{{ slide.image_mobile.url }}" alt="{{ slide.title }}" loading="lazy" />
+            {% else %}
+            <img src="{{ slide.image_mobile.url }}" alt="{{ slide.title }}" loading="lazy" />
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+        <div class="slider_post">
+          {% if slide.header_type == 'h1' %}
+          <h1>{{ slide.title }}</h1>
+          {% else %}
+          <h2>{{ slide.title }}</h2>
+          {% endif %}
+          <p>{{ slide.text }}</p>
+          {% if slide.link %}
+          <button class="btn_main"><a href="{{ slide.link }}">{{slide.title_btn}}</a></button>
+          {% endif %}
+
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-pagination"></div>
+
+    <!-- If we need navigation buttons -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+
+    <!-- If we need scrollbar -->
+    <div class="swiper-scrollbar"></div>
+  </div>
+</div>

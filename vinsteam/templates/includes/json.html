@@ -1,0 +1,195 @@
+{% load phone_norm %}
+{% if post.category %}
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    {% if post.category.blog %}
+    "@type": "BlogPosting",
+    {% else %}
+    "@type": "Article",
+    {% endif %}
+    "headline": "{{ post.title|safe }}",
+    "url": "http://{{ request.get_host }}{{ post.get_absolute_url }}",
+    "datePublished": "{{ post.created_at|date:"
+    Y - m - d "}}",
+    "dateModified": "{{ post.updated_at|date:"
+    Y - m - d "}}",
+    "author": {
+      "@type": "Person",
+      "name": "{{config_seo.title}}"
+    },
+    {% if post.image %}
+    "image": "http://{{ request.get_host }}{{ post.image.url }}",
+    {% endif %}
+    "description": "{{ post.short_description|truncatewords:30|safe }}",
+    "articleBody": "{{ post.content_ckeditor|truncatewords:100|safe }}",
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{config_seo.title}}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "http://{{ request.get_host }}{{ config.logo.url }}"
+      }
+    }
+  }
+</script>
+
+
+{% endif %}
+
+{% if product %}
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org/",
+    "@type": "Product",
+    "name": "{{ product.title }} - {{product.length}}м",
+    "image": {% if product.image %}
+    "http://{{ request.get_host }}{{ product.image.url }}"
+    {% endif %},
+    "description": "{{ product.short_description|striptags|truncatewords:30|escapejs }}",
+    "sku": "{{ product.blade }}-{{ product.fatness_blade }}-{{ product.length }}-{{ product.pipe }}-{{ product.fatness_pipe }}",
+    "brand": {
+      "@type": "Brand",
+      "name": "Первый фундамент"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "http://{{ request.get_host }}{{ product.get_absolute_url }}",
+      "priceCurrency": "RUB",
+      "price": "{{ product.price }}",
+      "itemCondition": "http://schema.org/NewCondition",
+      "availability": "http://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "Первый фундамент"
+      }
+    }
+  }
+</script>
+{% endif %}
+
+{% if page.is_homepage %}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "{{config_seo.title}}",
+    "description": "{{config_seo.meta_description}}",
+    "url": "https://{{ request.get_host }}",
+    "logo": "https://{{ request.get_host }}{{ config.logo.url }}",
+    "telephone": "{{ config.phone_number|format_phone_number }}",
+    "email": "{{config.email}}",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "{{config.address}}",
+      "addressLocality": "{{config.town}}",
+      "postalCode": "{{config.postal_code}}",
+      "addressCountry": "RU"
+    },
+    "sameAs": [
+      "{{config.telegram}}",
+      "{{config.vk}},
+      "{{config.whatsapp}}"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "{{ config.phone_number|format_phone_number }}",
+      "contactType": "customer service",
+      "areaServed": "RU",
+      "availableLanguage": "Russian"
+    }
+  }
+</script>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "{{config_seo.title}}",
+    "description": "{{config_seo.meta_description}}",
+    "url": "https://{{ request.get_host }}",
+    "image": "https://{{ request.get_host }}{{ config.logo.url }}",
+    "telephone": "{{ config.phone_number|format_phone_number }}",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "{{config.address}}",
+      "addressLocality": "{{config.town}}",
+      "postalCode": "{{config.postal_code}}",
+      "addressCountry": "RU"
+    },
+    {% comment %}
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "54.995896",
+      "longitude": "82.973736"
+    },
+    {% endcomment %}
+    "openingHours": "Mo-Su 09:00-17:00",
+    "sameAs": [
+      "{{config.telegram}}",
+      "{{config.vk}},
+      "{{config.whatsapp}}"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Услуги",
+      "itemListElement": [{
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Название",
+            "url": "https://{{ request.get_host }}/link"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Название",
+            "url": "https://{{ request.get_host }}/link/"
+          }
+        }
+      ]
+    }
+  }
+</script>
+
+{% endif %}
+
+{% if category_articles %}
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    {% if category_articles.blog %}
+    "@type": "Blog",
+    {% else %}
+    "@type": "ItemList",
+    {% endif %}
+    "name": "{{meta_tags.meta_title}}",
+    "description": "{{meta_tags.meta_description}}",
+    "url": "http://{{ request.get_host }}{{ category_articles.get_absolute_url }}",
+    "blogPost": [
+    {% for post in posts %} {
+        "@type": "BlogPosting",
+        "headline": "{{ post.title|safe }}",
+        "url": "http://{{ request.get_host }}{{ post.get_absolute_url }}",
+        "datePublished": "{{ post.created_at|date:"
+        Y - m - d "}}",
+        "dateModified": "{{ post.updated_at|date:"
+        Y - m - d " }}",
+        "author": {
+          "@type": "Person",
+          "name": "{{config_seo.title}}"
+        },
+        {% if post.image %}
+        "image": "http://{{ request.get_host }}{{ post.image.url }}",
+        {% endif%}
+        "description": "{{ post.short_description|truncatewords:30|safe }}"
+      } {% if not forloop.last %},
+      {% endif %} 
+      {% endfor %}
+    ]
+  }
+</script>
+{% endif %}

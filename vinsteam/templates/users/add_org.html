@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+{% load thumbnail %}
+{% include 'includes/profile_items_main_mobile.html' %}
+<div class="content_main category_index">
+  <div class="container">
+    {% include 'includes/profile_items_main.html' %}
+    <div class="category_index_main hits_main profile_index">
+      <div class="category_sort_main">
+        <div class="title_index">
+          <h2>{{ page_name }}</h2>
+        </div>
+      </div>
+      {% if user.is_authenticated %}
+      <div class="profile_main profile_org">
+        <div class="profile_org_link">
+          {% if user.role %}
+          <p>Подтвержденная организация</p>
+          {% else %}
+          {% if request.user.organization %}
+          <p>Ожидайте подтверждения</p>
+          <p><span class="write_me">или свяжитесь с нами</span></p>
+          {% endif %}
+          {% endif %}
+        </div>
+        {% if request.user.organization %}
+        <div class="form_org">
+          <div class="form_group_profile">
+            <h4>Наименование организации:</h4>
+            <p>{{ user.organization.name }}</p>
+          </div>
+          <div class="form_group_profile">
+            <h4>ИНН:</h4>
+            <p>{{ user.organization.inn }}</p>
+          </div>
+          {% if user.organization.legal_address %}
+          <div class="form_group_profile">
+            <h4>Юридический адрес:</h4>
+            <p>{{ user.organization.legal_address }}</p>
+          </div>
+          {% endif %}
+          {% if user.organization.ogrn %}
+          <div class="form_group_profile">
+            <h4>ОГРН:</h4>
+            <p>{{ user.organization.ogrn }}</p>
+          </div>
+          {% endif %}
+          {% if user.organization.kpp %}
+          <div class="form_group_profile">
+            <h4>КПП:</h4>
+            <p>{{ user.organization.kpp }}</p>
+          </div>
+          {% endif %}
+          {% if user.organization.bank_name %}
+          <div class="form_group_profile">
+            <h4>Название банка:</h4>
+            <p>{{ user.organization.bank_name }}</p>
+          </div>
+          {% endif %}
+          {% if user.organization.bank_inn %}
+          <div class="form_group_profile">
+            <h4>ИНН банка:</h4>
+            <p>{{ user.organization.bank_inn }}</p>
+          </div>
+          {% endif %}
+          {% if user.organization.bank_kpp %}
+          <div class="form_group_profile">
+            <h4>КПП банка:</h4>
+            <p>{{ user.organization.bank_kpp }}</p>
+          </div>
+          {% endif %}
+          {% if user.organization.bik %}
+          <div class="form_group_profile">
+            <h4>БИК банка:</h4>
+            <p>{{ user.organization.bik }}</p>
+          </div>
+          {% endif %}
+        </div>
+        <!-- Отображаем содержимое, если у пользователя есть объект Organization -->
+        {% else %}
+        <form class="form_group_form" method="post" action="{% url 'users:add_org' %}">
+          {% csrf_token %}
+
+          <div class="form_group_profile">
+            {{ form.name }}
+            {% if form.name.errors %}
+            <div class="error">{{ form.name.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form_group_profile">
+            {{ form.inn }}
+            {% if form.inn.errors %}
+            <div class="error">{{ form.inn.errors }}</div>
+            {% endif %}
+          </div>
+
+          <button class="btn_main" type="submit">Добавить организацию</button>
+        </form>
+        <!-- Отображаем содержимое, если у пользователя нет объекта Organization -->
+        {% endif %}
+      </div>
+      {% else %}
+      <div class="info_text_main">
+        <p class="info_text">Пожалуйста, войдите в систему.</p>
+        <p class="lk_top_sign info_text_link lk_top"> Войти</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

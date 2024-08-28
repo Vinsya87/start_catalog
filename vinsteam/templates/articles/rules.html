@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .video_rules{
+    max-width:100%;
+  }
+</style>
+{% if page.slider %}
+<div class="{{page.slider.class_css}} slider_top_item">
+  <div class="slider_top_item_img">
+    {% if page.slider.image %}
+
+    <div class="slider_decstop_item">
+      <img src="{{ page.slider.image.url }}" alt="{{ page.slider.title }}" loading="lazy" />
+
+    </div>
+    {% endif %}
+
+    {% if page.slider.image_mobile %}
+    <div class="slider_mobile_item">
+      <img src="{{ page.slider.image_mobile.url }}" alt="{{ page.slider.title }}" />
+    </div>
+    {% endif %}
+  </div>
+  <div class="slider_post">
+    {% if page.slider.header_type == 'h1' %}
+    <h1>{{ page.slider.title }}</h1>
+    {% else %}
+    <h2>{{ page.slider.title }}</h2>
+    {% endif %}
+    <p>{{ page.slider.text }}</p>
+    {% if page.slider.link %}
+    {% endif %}
+
+  </div>
+</div>
+{% endif %}
+{% include 'includes/breadcrumbs.html' %}
+<div class="container">
+  <div class="post_article">
+
+    {% if  page.image %}
+    <article class="news_post news_post_image">
+
+      <div class="image_special_main">
+
+        <img src="{{ page.image.url }}" alt="{{ page.title }}">
+
+      </div>
+      <div class="desc_special_main">
+        <h1>{{ page.title }}</h1>
+        <div class="short_post">
+          <p>{{page.short_description}}</p>
+        </div>
+
+        {{ page.content_ckeditor|safe }}
+      </div>
+    </article>
+    {% else %}
+    <article class="news_post">
+      <h1>{{ page.title }}</h1>
+      <video class="video_rules" controls>
+        <source src="/media/video/tort-info.webm" type="video/webm" />
+        <source src="/media/video/tort-info.mp4" type="video/mp4" />
+      
+      </video>
+      <p>{{ page.content_ckeditor|safe }}</p>
+    </article>
+    {% endif %}
+    <div class="block_fotogallery">
+      {% for block in page.image_blocks.all %}
+      <h2>{{ block.title }}</h2>
+      <div class="block_fotogallery_items">
+        {% for image in block.images.all %}
+        <a target="_blank" href="{{ image.image.url }}"> <img src="{{ image.image.url }}" alt="{{ block.title }}"
+            loading="lazy"></a>
+
+        {% endfor %}
+      </div>
+
+      {% endfor %}
+    </div>
+
+  </div>
+
+</div>
+
+
+{% for block in page.content_blocks.all %}
+{% if block.number == 201 %}
+<div class="post_call_main post_call_main_post">
+  <div class="container">
+
+
+    {{ block.content_ckeditor|safe }}
+
+
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% endblock %}

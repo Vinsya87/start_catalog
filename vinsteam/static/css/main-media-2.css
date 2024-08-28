@@ -1,0 +1,241 @@
+@media (max-width: 1400px) {
+  .slider_post h2 {
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 26px;
+  }
+  .lk_top_main{gap: 10px;}
+  .lk_balance_moneybox p,
+  .lk_balance p{
+    text-align: center;
+  }
+  .header_item p{
+    text-align: center;
+  }
+}
+@media (max-width: 1200px) {
+  .dashboard_active{
+    flex-wrap: wrap;
+  }
+
+  .reviews_index_main_top .swiper-button-next {
+    right: 0;
+  }
+  .reviews_index_main_top .swiper-button-prev {
+    left: 0px;
+  }
+  .product_cont_main{
+    flex-wrap: wrap;
+  }
+  .product_image{
+    width: 90%;
+    height: auto;
+    max-width: 300px;
+  }
+  .product_content_img{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .product_desc_main{
+    flex-wrap: wrap;
+  }
+  .product_forms h1{
+    font-size: 22px;
+  }
+  .desc_product{
+    margin-top: 20px;
+  }
+  .btns_product_cart{
+    width: 100%;
+    gap: 20px;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 992px) {
+  .header_items_mobile {
+    display: flex;
+    width: 115px;
+  }
+  .logo_main_p {
+    padding-left: 0;
+  }
+  .header_items_mobile_main{
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .bottom_mobile_head{
+    display: flex;
+    justify-content: end;
+    gap: 15px;
+    width: 100%;
+    position: absolute;
+    bottom: -30px;
+    right: 0;
+  }
+  .slider_post h2{
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  .moneybox_item{
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .main_complex{
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .form_money_up{
+    margin: 0 auto;
+  }
+  .profile_item_moneybox h3{
+    text-align: center;
+  }
+  .delivery td{
+    display: flex;
+    align-items: center;
+    width: 100% !important;
+    justify-content: center;
+  }
+  .delivery td img{
+width: auto !important;
+max-width: 100%;
+height: auto !important;
+  }
+  .delivery .news_post p{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .prod_top_basket{
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .prod_top_main_basket{
+    margin-left: 0px;
+    width: 100%;
+    flex: initial;
+    margin-top: 20px;
+  }
+  .total_price_basket_down{
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  .prod_top_main_basket{
+    flex-direction: column;
+    gap: 15px;
+  }
+  .block_fotogallery_items{
+    gap: 20px 2%;
+  }
+  .block_fotogallery a {
+    width: 32%;
+}
+  .hits_main_product{
+    gap: 20px 2%;
+    flex-wrap: wrap;
+  }
+  .hits_main_product .product_item_main{
+    width: 49%;
+  }
+  .category_index .category_index_main{
+    gap: 0 2%;
+  }
+  .category_index .product_item_main{
+    width: 32%;
+  }
+  .slider_mobile_item {
+    height: 250px;
+    overflow: hidden;
+}
+  .slider_top_item img {
+    height: 100%;
+    object-fit: cover;
+}
+  .cakes_top_form{
+    flex-wrap: wrap;
+  }
+  .cakes_top_form h2{
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  #up_piggybank{
+    justify-content: center;
+  }
+#up_piggybank .message_moneybox p{
+  text-align: center;
+}
+.dashboard_ul_table{
+  flex-direction: column;
+}
+.copy-button{
+  margin-top: 15px;}
+  .category_sort_main_df h2{
+    margin-bottom: 0;
+  }
+  .block_fotogallery_items{
+    margin-bottom: 20px;
+  }
+
+}
+@media (max-width: 600px) {
+  .header_items_mobile_top .lk_top_sign p{
+    width: min-content;
+  }
+
+  .block_fotogallery_items{
+    gap: 20px 1%;
+  }
+  .block_fotogallery a {
+    width: 49%;
+}
+  .category_sort_main_df{
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  .category_index .category_index_main{
+    gap: 0 2%;
+  }
+  .category_index .product_item_main{
+    width: 49%;
+  }
+
+  .copy_footer p{
+    font-size: 12px;
+  }
+  footer .container{
+    align-items: center;
+  }
+  .footer_contacts_main{
+    flex-direction: column;
+  }
+}
+@media (max-width: 500px) {
+  .moneybox_cakes .moneybox_item{
+    min-width: 280px;
+  }
+
+  
+}
+
+@media (max-width: 400px) {
+
+}
+@media (max-width: 400px) {
+
+}
+@media (max-width: 360px) {
+  .header_items_mobile {
+    width: auto;
+  }
+  
+}
