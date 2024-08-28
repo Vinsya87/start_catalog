@@ -60,18 +60,22 @@ python -m pip install --upgrade pip
 
     Вставьте в файл следующие данные (замените значения на свои):
 
-python3 -m venv venv
-    source venv/bin/activate
-    SUPERUSER_NAME='AdminUser'
-    SUPERUSER_PASSWORD='SecurePassword123'
-    SUPERUSER_EMAIL='admin@example.com'
-    SECRET_KEY='django-insecure-dr_7-d(1m)#*#sn9)i^$fn%5+g0g*nb-6v@))f4%k!g7o5kdtu'
-    DEBUG=False
-    EMAIL_HOST='noreply@example.com'
-    EMAIL_PORT=587
-    EMAIL_HOST_USER='mail@mosin.site'
-    EMAIL_HOST_PASSWORD='examplepassword'
-    DEFAULT_FROM_EMAIL='mail@mosin.site'
+# Django superuser credentials
+SUPERUSER_NAME='AdminUser'
+SUPERUSER_PASSWORD='SecurePassword123'
+SUPERUSER_EMAIL='admin@example.com'
+
+# Django settings
+SECRET_KEY='django-insecure-examplekey-1234567890abcdefghijklmnopqrstuvwxyz'
+DEBUG=True
+
+# Email settings
+EMAIL_HOST='smtp.example.com'
+EMAIL_PORT=587
+EMAIL_HOST_USER='noreply@example.com'
+EMAIL_HOST_PASSWORD='examplepassword'
+DEFAULT_FROM_EMAIL='noreply@example.com'
+
 
 
 
