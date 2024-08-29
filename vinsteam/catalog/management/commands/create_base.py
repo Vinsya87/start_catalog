@@ -232,10 +232,9 @@ class Command(BaseCommand):
 
         # Создание новой рубрики
         category_title = "Новая рубрика"
-        category_slug = slugify(category_title)
         new_head, created = Head.objects.get_or_create(
             title=category_title,
-            slug=category_slug
+            slug='category_slug'
         )
 
         if created:
